@@ -12,7 +12,7 @@
             <hr>
 
             <div class="login-logo">
-                <h3> <b> Login - </b> </h3>
+                <h3> <b> Login </b> </h3>
             </div>
             <form action="/user_dashboard_module/user_dashboard.php" method="POST">
                 <div class="form-group has-feedback">
