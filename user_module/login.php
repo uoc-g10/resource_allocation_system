@@ -5,7 +5,7 @@
 
         <div class="login-box-body">
             <div class="text-center">
-                <img src="/images/logo-public.png" width="100px">
+                <img src="../images/logo-public.png" width="100px">
                 <br>
             </div>
             <h3 class="login-box-msg"> Online Resource Allocation System </h3>
