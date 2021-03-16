@@ -14,7 +14,7 @@
             <div class="login-logo">
                 <h3> <b> Login </b> </h3>
             </div>
-            <form action="/user_dashboard_module/user_dashboard.php" method="POST">
+            <form action="../user_dashboard_module/user_dashboard.php" method="POST">
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="username" placeholder="Username" autofocus>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>

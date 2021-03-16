@@ -1,6 +1,6 @@
 <header class="main-header">
 
-  <a href="/user_dashboard_module/user_dashboard.php" class="logo">
+  <a href="../user_dashboard_module/user_dashboard.php" class="logo">
     <span class="logo-mini"><b>G</b>10</span>
     <span class="logo-lg"><b>G</b>10</span>
   </a>
