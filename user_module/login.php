@@ -8,7 +8,7 @@
                 <img src="../images/logo-public.png" width="100px">
                 <br>
             </div>
-            <h3 class="login-box-msg"> Online Resource Allocation System </h3>
+            <h3 class="login-box-msg"> Online Resource Allocation System  </h3>
             <hr>
 
             <div class="login-logo">
