@@ -18,7 +18,7 @@
                         Dashboard
                     </li>
                 </ol>
-            </section>
+            </s     ection>
 
             <section class="content">
 
@@ -38,13 +38,6 @@
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
                                             <div class="row">
-                                                <div class="input-group">
-                                                    <input type="search" class="form-control">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default btn-flat" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true">
-                                                            </span> Search!</button>
-                                                    </span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -52,49 +45,130 @@
 
 
                             </div>
-                            <div class="box-body">
-                                <table id="example1" class="table table-bordered">
-                                    <thead>
-                                        <th>Id</th>
-                                        <th>Department Name</th>
-                                        <th class="text-right">Actions</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>001</td>
-                                            <td> ICT Department </td>
-                                            <td class="text-right">
-                                                <button class='btn btn-default btn-sm btn-flat edit' data-toggle="modal" data-target="#editDepartment"><i class='fa fa-edit'></i> Edit</button>
-                                                <button class='btn btn-danger btn-sm btn-flat delete' data-toggle="modal" data-target="#delete"><i class='fa fa-trash'></i> Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>002</td>
-                                            <td> Engneering Technology Department </td>
-                                            <td class="text-right">
-                                                <button class='btn btn-default btn-sm btn-flat edit' data-toggle="modal" data-target="#editDepartment"><i class='fa fa-edit'></i> Edit</button>
-                                                <button class='btn btn-danger btn-sm btn-flat delete' data-toggle="modal" data-target="#delete"><i class='fa fa-trash'></i> Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>003</td>
-                                            <td> Environment Department </td>
-                                            <td class="text-right">
-                                                <button class='btn btn-default btn-sm btn-flat edit' data-toggle="modal" data-target="#editDepartment"><i class='fa fa-edit'></i> Edit</button>
-                                                <button class='btn btn-danger btn-sm btn-flat delete' data-toggle="modal" data-target="#delete"><i class='fa fa-trash'></i> Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td> Agriculture Department </td>
-                                            <td class="text-right">
-                                                <button class='btn btn-default btn-sm btn-flat edit' data-toggle="modal" data-target="#editDepartment"><i class='fa fa-edit'></i> Edit</button>
-                                                <button class='btn btn-danger btn-sm btn-flat delete' data-toggle="modal" data-target="#delete"><i class='fa fa-trash'></i> Delete</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                           
+                            <!-- Table Content -->
+
+                            <html>
+                            <head>
+                            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+                            <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+                            <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+                            <style>
+                            body
+                            {
+                            margin:0;
+                            padding:0;
+                            background-color:#f1f1f1;
+                            }
+                            .box
+                            {
+                            width:1100px;
+                            padding:20px;
+                            background-color:#fff;
+                            border:1px solid #ccc;
+                            border-radius:5px;
+                            margin-top:25px;
+                            box-sizing:border-box;
+                            }
+                            </style>
+                            </head>
+                            <body>
+                            <br />
+                            <div class="table-responsive">
+                                <br />
+                                <div id="alert_message"></div>
+                                <table id="user_data" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                <th>Id</th>
+                                <th>Department Name</th>
+                                <th></th>
+                                </tr>
+                                </thead>
                                 </table>
                             </div>
+                            </div>
+                            </body>
+                            </html>
+
+                            <script type="text/javascript" language="javascript" >
+                            $(document).ready(function(){
+                            
+                            fetch_data();
+
+                            function fetch_data()
+                            {
+                            var dataTable = $('#user_data').DataTable({
+                                "processing" : true,
+                                "serverSide" : true,
+                                "order" : [],
+                                "ajax" : {
+                                url:"fetch.php",
+                                type:"POST"
+                                }
+                            });
+                            }
+                            
+                            function update_data(id, column_name, value)
+                            {
+                            $.ajax({
+                                url:"dep_update.php",
+                                method:"POST",
+                                data:{id:id, column_name:column_name, value:value},
+                                success:function(data)
+                                {
+                                $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+                                $('#user_data').DataTable().destroy();
+                                fetch_data();
+                                }
+                            });
+                            setInterval(function(){
+                                $('#alert_message').html('');
+                            }, 5000);
+                            }
+
+                            $(document).on('blur', '.update', function(){
+                            var id = $(this).data("id");
+                            var column_name = $(this).data("column");
+                            var value = $(this).text();
+                            update_data(id, column_name, value);
+                            });
+                            
+                            $('#add').click(function(){
+                            var html = '<tr>';
+                            html += '<td contenteditable id="data1"></td>';
+                            html += '<td contenteditable id="data2"></td>';
+                            html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs">Insert</button></td>';
+                            html += '</tr>';
+                            $('#user_data tbody').prepend(html);
+                            });
+                       
+                                         
+                            $(document).on('click', '.delete', function(){
+                            var id = $(this).attr("id");
+                            if(confirm("Are you sure you want to remove this?"))
+                            {
+                                $.ajax({
+                                url:"dep_delete.php",
+                                method:"POST",
+                                data:{id:id},
+                                success:function(data){
+                                $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+                                $('#user_data').DataTable().destroy();
+                                fetch_data();
+                                }
+                                });
+                                setInterval(function(){
+                                $('#alert_message').html('');
+                                }, 5000);
+                            }
+                            });
+                            });
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -111,12 +185,12 @@
                             <span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title"><b>Add new Department</b></h4>
                     </div>
-                    <form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="frmbox" method="POST"  enctype="multipart/form-data" onsubmit="return formSubmit();">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name" class="col-sm-3 control-label">Depaerment Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="name" name="name" value="Depaerment Name">
+                                    <input type="text" class="form-control" id="name" name="name" value="Department Name">
                                 </div>
                             </div>
                         </div>
@@ -128,60 +202,22 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="jquery-3.3.1.js"></script>
+        <script type="text/javascript" language="javascript">
 
-        <!-- Edit Department -->
-        <div class="modal fade" id="editDepartment">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><b>Edit Department Details</b></h4>
-                    </div>
-                    <form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="name" class="col-sm-3 control-label">Depaerment Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="name" name="name" value="Depaerment Name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                            <button type="submit" class="btn btn-success btn-flat" name="save"><i class="fa fa-check-square-o"></i> Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete -->
-    <div class="modal fade" id="delete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><b>Deleting...</b></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" method="POST" action="">
-                        <input type="hidden" id="del_timeid" name="id">
-                        <div class="text-center">
-                            <p>DELETE DEPARTMENT</p>
-                            <h2 id="del_schedule" class="bold"></h2>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                    <button type="submit" class="btn btn-danger btn-flat" name="delete"><i class="fa fa-trash"></i> Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+        function formSubmit(){
+            $.ajax({
+                type:'POST',
+                url:'department_create.php',
+                data:$('#frmbox').serialize(),
+                success:function(response){
+                    $('#success').html(response);
+                }
+            });
+            var form = document.getElementById('frmbox').reset();
+            false;
+        }
+        </script>
 
     <?php include '../includes/scripts.php'; ?>
     <?php include '../includes/footer.php'; ?>
