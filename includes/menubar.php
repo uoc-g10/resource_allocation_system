@@ -37,6 +37,7 @@
         <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li>
         <li><a href="../resource_module/resources.php"><i class="fa fa-files-o"></i> <span> Manage Resources </span></a></li>
         <li><a href="../resource_module/departments.php"><i class="fa fa-files-o"></i> <span> Manage Departments </span></a></li>
+        <li><a href="../resource_module/faculties.php"><i class="fa fa-files-o"></i> <span> Manage Faculties </span></a></li>
         <li><a href="../user_module/users.php"><i class="fa fa-user"></i> <span> Manage Users </span></a></li>
 
         <li class="header">REPORT</li>

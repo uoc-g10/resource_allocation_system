@@ -1,8 +1,12 @@
 <?php
-	$conn = new mysqli('localhost', 'root', 'pawelb2020', 'apsystem');
+$servername = "localhost";
+$username = "root";
+$password = "pawelb2020";
+$dbname = "allocationsystem";
 
-	if ($conn->connect_error) {
-	    die("Connection failed: " . $conn->connect_error);
-	}
-	
-?>
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}

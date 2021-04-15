@@ -7,8 +7,9 @@
         <?php include '../includes/menubar.php'; ?>
 
         <div class="content-wrapper">
+
             <section class="content-header">
-                <h1> Manage Departments </h1>
+                <h1> Manage Faculties </h1>
                 <ol class="breadcrumb">
                     <li>
                         <a href=""><i class="fa fa-dashboard"></i> Home</a>
@@ -92,12 +93,12 @@
                         <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><b>Add new Department</b></h4>
                 </div>
-                <form class="form-horizontal" id="frmbox" method="POST">
+                <form class="form-horizontal" id="frmbox" method="POST" enctype="multipart/form-data" onsubmit="return formSubmit();">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name" class="col-sm-3 control-label">Department Name</label>
+                            <label for="name" class="col-sm-3 control-label">Depaerment Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Department Name" required>
+                                <input type="text" class="form-control" id="name" name="name" value="Department Name">
                             </div>
                         </div>
                     </div>
@@ -112,8 +113,7 @@
 
     <?php include '../includes/scripts.php'; ?>
     <script>
-        $("#frmbox").on('submit', function(e) {
-            e.preventDefault();
+        function formSubmit() {
             $.ajax({
                 type: 'POST',
                 url: 'department_create.php',
@@ -122,9 +122,9 @@
                     $('#success').html(response);
                 }
             });
-
             var form = document.getElementById('frmbox').reset();
-        });
+            false;
+        }
 
         $(document).ready(function() {
             fetch_data();
