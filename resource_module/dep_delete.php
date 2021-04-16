@@ -1,11 +1,11 @@
 <?php
-$connect = mysqli_connect("localhost", "root", "", "allocationsystem");
-if(isset($_POST["id"]))
-{
- $query = "DELETE FROM departments WHERE id = '".$_POST["id"]."'";
- if(mysqli_query($connect, $query))
- {
-  echo 'Data Deleted';
- }
+require '../includes/conn.php';
+
+if (isset($_POST["id"])) {
+    $status = 0;
+    $query = "DELETE FROM departments WHERE id = '" . $_POST["id"] . "'";
+    if (mysqli_query($conn, $query)) {
+        $status = 1;
+    }
+    echo $status;
 }
-?>

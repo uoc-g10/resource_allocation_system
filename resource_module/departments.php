@@ -1,4 +1,29 @@
+<?php
+require '../includes/conn.php';
+$query = "SELECT id,name FROM faculties ";
+$result = mysqli_query($conn, $query);
+$faculties = [];
+while ($faculty = mysqli_fetch_array($result)) {
+    $faculties[] = array('id' => $faculty['id'], 'name' => $faculty['name']);
+}
+?>
+
 <?php include '../common/header.php'; ?>
+<style>
+    .box {
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        /* border-radius: 5px; */
+        margin-top: 25px;
+        box-sizing: border-box;
+    }
+
+    .swal2-actions button {
+        border-radius: 0 !important;
+    }
+</style>
+
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -41,36 +66,17 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Table Content -->
-
-                            <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-                                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
-
-
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
-
-                            <style>
-                                .box {
-                                    padding: 20px;
-                                    background-color: #fff;
-                                    border: 1px solid #ccc;
-                                    /* border-radius: 5px; */
-                                    margin-top: 25px;
-                                    box-sizing: border-box;
-                                }
-                            </style>
-
                             <br />
                             <div class="table-responsive">
                                 <br />
                                 <div id="alert_message"></div>
-                                <table id="user_data" class="table table-bordered table-striped">
+                                <table id="user_data" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
+                                            <th class="text-center" width="50px">Id</th>
                                             <th>Department Name</th>
-                                            <th></th>
+                                            <th>Faculty</th>
+                                            <th width="100px"></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -92,12 +98,60 @@
                         <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><b>Add new Department</b></h4>
                 </div>
-                <form class="form-horizontal" id="frmbox" method="POST">
+                <form class="form-horizontal" id="departmentFrm" method="POST">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name" class="col-sm-3 control-label">Department Name</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Department Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">Faculty</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="faculty">
+                                    <?php foreach ($faculties as $faculty) {
+                                        echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
+                                    } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                        <button type="submit" class="btn btn-success btn-flat" name="save"><i class="fa fa-check-square-o"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Department -->
+    <div class="modal fade" id="editDepartment">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><b>Edit Department</b></h4>
+                </div>
+                <form class="form-horizontal" id="departmentEditFrm" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">Department Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="editName" name="name" placeholder="Department Name" required>
+                                <input type="hidden" class="form-control" id="editId" name="id">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">Faculty</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="faculty" id="editFaculty">
+                                    <?php foreach ($faculties as $faculty) {
+                                        echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
+                                    } ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -112,33 +166,107 @@
 
     <?php include '../includes/scripts.php'; ?>
     <script>
-        $("#frmbox").on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: 'department_create.php',
-                data: $('#frmbox').serialize(),
-                success: function(response) {
-                    $('#success').html(response);
+        $(document).ready(function() {
+
+
+            // Initiate DataTable
+            var dataTable = $('#user_data').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    url: "fetch.php?s=departments",
+                    type: "POST"
                 }
             });
 
-            var form = document.getElementById('frmbox').reset();
-        });
 
-        $(document).ready(function() {
-            fetch_data();
-
-            function fetch_data() {
-                var dataTable = $('#user_data').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "order": [],
-                    "ajax": {
-                        url: "fetch.php",
-                        type: "POST"
+            // Create Department
+            $("#departmentFrm").on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'department_create.php',
+                    data: $('#departmentFrm').serialize(),
+                    success: function(response) {
+                        $("#addDepartment").modal('hide');
+                        dataTable.ajax.reload();
+                        var form = document.getElementById('departmentFrm').reset();
+                        showMessage('success', 'New Department has been created successfully')
                     }
                 });
+            });
+
+
+            // Edit Department
+            $(document).on('click', '.data-edit', function() {
+                var id = $(this).attr("id");
+                var name = $(this).attr('data-name');
+                var facultyId = $(this).attr('data-fid');
+
+                $("#editId").val(id);
+                $("#editName").val(name);
+                $('#editFaculty option').removeAttr('selected');
+                $('#editFaculty option[value="' + facultyId + '"]').attr('selected', true);
+                $("#editDepartment").modal('show');
+            });
+
+
+            // Save Edit Details
+            $("#departmentEditFrm").on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'dep_update.php',
+                    data: $('#departmentEditFrm').serialize(),
+                    success: function(response) {
+                        $("#editDepartment").modal('hide');
+                        dataTable.ajax.reload();
+                        var form = document.getElementById('departmentEditFrm').reset();
+                        showMessage('success', 'New Department has been created successfully')
+                    }
+                });
+            });
+
+            // Remove Department Record
+            $(document).on('click', '.delete', function() {
+                var id = $(this).attr("id");
+
+                Swal.fire({
+                    title: 'Are you sure you want to remove this?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Remove'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "dep_delete.php",
+                            method: "POST",
+                            data: {
+                                id: id
+                            },
+                            success: function(data) {
+                                if (data == '1') {
+                                    showMessage('success', 'Department has been removed successfully')
+                                    dataTable.ajax.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            function showMessage(type, description) {
+                Swal.fire({
+                    icon: type,
+                    title: description,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             }
 
             function update_data(id, column_name, value) {
@@ -178,7 +306,7 @@
             });
 
 
-            $(document).on('click', '.delete', function() {
+            $(document).on('click', '.deletes', function() {
                 var id = $(this).attr("id");
                 if (confirm("Are you sure you want to remove this?")) {
                     $.ajax({

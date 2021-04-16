@@ -54,6 +54,11 @@
 			height: 100%;
 			border-radius: 5px;
 		}
+
+		.swal2-popup {
+			font-size: 1.6rem !important;
+			border-radius: 0 !important;
+		}
 	</style>
 </head>
 
