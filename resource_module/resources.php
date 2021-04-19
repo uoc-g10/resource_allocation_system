@@ -227,14 +227,6 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                         option.append(name);
                         $('#department').append(option);
                     }
-
-                    // $('#department option').addClass('hide');
-                    // $('#department').val('');
-                    // $('#department option[data-fid="' + fid + '"]').removeClass('hide');
-
-                    // setTimeout(function() {
-                    //     $($('#department option[data-fid="' + fid + '"]')[0]).attr('selected', 'selected');
-                    // }, 150)
                 }
 
                 function showMessage(type, description) {
