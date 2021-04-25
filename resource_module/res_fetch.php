@@ -5,7 +5,7 @@ require '../includes/conn.php';
 $columns = array('id', 'name', 'location', 'type', 'faculty', 'department', 'category');
 
 $query = "SELECT * FROM resources";
-$query = "SELECT r.id, r.name, r.location, r.type, r.category, f.name as fname, d.name as dname FROM resources as r INNER JOIN faculties as f ON r.faculty=f.id INNER JOIN departments as d ON r.department=d.id ";
+$query = "SELECT r.id, r.name, r.location, r.type, r.category, f.name as fname, f.id as fid, d.name as dname, d.id as did FROM resources as r INNER JOIN faculties as f ON r.faculty=f.id INNER JOIN departments as d ON r.department=d.id ";
 
 if (isset($_POST["search"]["value"])) {
     $query .= ' WHERE r.id LIKE "%' . $_POST["search"]["value"] . '%" OR r.name LIKE "%' . $_POST["search"]["value"] . '%" ';
@@ -35,10 +35,10 @@ while ($row = mysqli_fetch_array($result)) {
     $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="name">' . $row["name"] . '</div>';
     $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="location">' . $row["location"] . '</div>';
     $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="type">' . $row["type"] . '</div>';
-    $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="faculty">' . $row["fname"] . '</div>';
-    $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="department">' . $row["dname"] . '</div>';
-    $sub_array[] = '<div class="update" data-id="' . $row["id"] . '" data-column="category">' . $row["category"] . '</div>';
-    $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete" id="' . $row["id"] . '">Delete</button>';
+    $sub_array[] = '<div class="update" data-fid="' . $row["fid"] . '" data-id="' . $row["id"] . '" data-column="faculty">' . $row["fname"] . '</div>';
+    $sub_array[] = '<div class="update" data-did="' . $row["did"] . '" data-id="' . $row["id"] . '" data-column="department">' . $row["dname"] . '</div>';
+    $sub_array[] = '<div class="update" data-cat="'. $row["category"] .'" data-id="' . $row["id"] . '" data-column="category">' . $row["category"] . '</div>';
+    $sub_array[] = '<div class="text-right"><button type="button" name="edit" class="btn btn-primary btn-xs edit-resource" id="' . $row["id"] . '">Edit</button> <button type="button" name="delete" class="btn btn-danger btn-xs delete" id="' . $row["id"] . '">Delete</button> </div>';
     $data[] = $sub_array;
 }
 

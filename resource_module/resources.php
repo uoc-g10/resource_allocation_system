@@ -127,7 +127,6 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                                     <select class="form-control" name="type">
                                         <option value="Main"> Main </option>
                                         <option value="Sub"> Sub </option>
-                                        <option value="others"> etc :) </option>
                                     </select>
                                 </div>
                             </div>
@@ -174,15 +173,93 @@ while ($faculty = mysqli_fetch_array($result_2)) {
             </div>
         </div>
 
+        <!-- Edit Resource -->
+        <div class="modal fade" id="editResource">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><b>Edit Resource Details</b></h4>
+                    </div>
+                    <form class="form-horizontal" method="POST" id="resourceEditFrm">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name_edit" class="col-sm-3 control-label">Resource Name</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="name_edit" name="name" Placeholder="Resource Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="location_edit" class="col-sm-3 control-label">Location</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="location_edit" name="location" Placeholder="Location">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="col-sm-3 control-label">Type</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="type" id="type_edit">
+                                        <option value="Main"> Main </option>
+                                        <option value="Sub"> Sub </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="faculty_edit" class="col-sm-3 control-label">Faculty</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="faculty_edit" name="faculty">
+                                        <?php foreach ($faculties as $faculty) {
+                                            echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="department_edit" class="col-sm-3 control-label">Department</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="department_edit" name="department">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="catogory_edit" class="col-sm-3 control-label">Catogory</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="catogory_edit" name="catogory">
+                                        <option value="Lecture Hall"> Lecture Hall </option>
+                                        <option value="Auditorium"> Auditorium </option>
+                                        <option value="Laboratory"> Laboratory </option>
+                                        <option value="Playground"> Playground </option>
+                                        <option value="Others"> Other </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                            <button type="submit" class="btn btn-success btn-flat" name="save"><i class="fa fa-check-square-o"></i> Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php include '../includes/scripts.php'; ?>
 
         <script>
             $(document).ready(function() {
 
+                // json array of faculties and departments
                 var array = <?php echo json_encode($departments); ?>
 
-                console.log(array);
-
+                // Init Datatable
                 var dataTable = $('#user_data').DataTable({
                     "processing": true,
                     "serverSide": true,
@@ -209,15 +286,18 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                     });
                 });
 
-                $("#faculty").on('change', function() {
+                // Change departments when faculty change
+                $("#faculty, #faculty_edit").on('change', function() {
                     var fid = $(this).val();
                     updateFaculties(fid);
                 });
 
+                // On first Time update departments
                 updateFaculties($("#faculty").val());
 
+                // Change departments Function
                 function updateFaculties(fid) {
-                    $('#department option').remove();
+                    $('#department option, #department_edit option').remove();
                     for (i = 0; i < array[fid].length; i++) {
                         var id = array[fid][i]['id'];
                         var name = array[fid][i]['name'];
@@ -225,10 +305,72 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                         var option = $('<option>');
                         option.attr('value', id);
                         option.append(name);
-                        $('#department').append(option);
+                        $('#department, #department_edit').append(option);
                     }
                 }
 
+                // Edit resource
+                $(document).on('click', '.edit-resource', function() {
+                    var This = $(this).parent().parent().parent();
+                    $('#name_edit').val(This.find('[data-column="name"]').html());
+                    $('#location_edit').val(This.find('[data-column="location"]').html());
+                    $('#type_edit').val(This.find('[data-column="type"]').html());
+                    $('#faculty_edit').val(This.find('[data-column="faculty"]').attr('data-fid'));
+                    updateFaculties($("#faculty_edit").val());
+                    $('#department_edit').val(This.find('[data-column="department"]').attr('data-did'));
+                    $('#catogory_edit').val(This.find('[data-column="category"]').html());
+
+                    $('#editResource').modal('show');
+                });
+
+                // Save edited Form
+                $("#resourceEditFrm").on('submit', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'res_update.php',
+                        data: $('#resourceEditFrm').serialize(),
+                        success: function(response) {
+                            document.getElementById('resourceEditFrm').reset();
+                            $("#editResource").modal('hide');
+                            dataTable.ajax.reload();
+                            showMessage('success', 'Resource details has been updated successfully')
+                        }
+                    });
+                });
+
+                // Remove Department
+                $(document).on('click', '.delete', function() {
+                    var id = $(this).attr("id");
+
+                    Swal.fire({
+                        title: 'Are you sure you want to remove this?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Remove'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "res_delete.php",
+                                method: "POST",
+                                data: {
+                                    id: id
+                                },
+                                success: function(data) {
+                                    if (data == '1') {
+                                        showMessage('success', 'Resource has been removed successfully')
+                                        dataTable.ajax.reload();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+
+                // Show any message
                 function showMessage(type, description) {
                     Swal.fire({
                         icon: type,
@@ -238,64 +380,63 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                     })
                 }
 
+                // function update_data(id, column_name, value) {
+                //     $.ajax({
+                //         url: "res_update.php",
+                //         method: "POST",
+                //         data: {
+                //             id: id,
+                //             column_name: column_name,
+                //             value: value
+                //         },
+                //         success: function(data) {
+                //             $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
+                //             $('#user_data').DataTable().destroy();
+                //             fetch_data();
+                //         }
+                //     });
+                //     setInterval(function() {
+                //         $('#alert_message').html('');
+                //     }, 5000);
+                // }
 
-                function update_data(id, column_name, value) {
-                    $.ajax({
-                        url: "res_update.php",
-                        method: "POST",
-                        data: {
-                            id: id,
-                            column_name: column_name,
-                            value: value
-                        },
-                        success: function(data) {
-                            $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-                            $('#user_data').DataTable().destroy();
-                            fetch_data();
-                        }
-                    });
-                    setInterval(function() {
-                        $('#alert_message').html('');
-                    }, 5000);
-                }
+                // $(document).on('blur', '.update', function() {
+                //     var id = $(this).data("id");
+                //     var column_name = $(this).data("column");
+                //     var value = $(this).text();
+                //     update_data(id, column_name, value);
+                // });
 
-                $(document).on('blur', '.update', function() {
-                    var id = $(this).data("id");
-                    var column_name = $(this).data("column");
-                    var value = $(this).text();
-                    update_data(id, column_name, value);
-                });
-
-                $('#add').click(function() {
-                    var html = '<tr>';
-                    html += '<td contenteditable id="data1"></td>';
-                    html += '<td contenteditable id="data2"></td>';
-                    html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs">Insert</button></td>';
-                    html += '</tr>';
-                    $('#user_data tbody').prepend(html);
-                });
+                // $('#add').click(function() {
+                //     var html = '<tr>';
+                //     html += '<td contenteditable id="data1"></td>';
+                //     html += '<td contenteditable id="data2"></td>';
+                //     html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs">Insert</button></td>';
+                //     html += '</tr>';
+                //     $('#user_data tbody').prepend(html);
+                // });
 
 
-                $(document).on('click', '.delete', function() {
-                    var id = $(this).attr("id");
-                    if (confirm("Are you sure you want to remove this?")) {
-                        $.ajax({
-                            url: "res_delete.php",
-                            method: "POST",
-                            data: {
-                                id: id
-                            },
-                            success: function(data) {
-                                $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-                                $('#user_data').DataTable().destroy();
-                                fetch_data();
-                            }
-                        });
-                        setInterval(function() {
-                            $('#alert_message').html('');
-                        }, 5000);
-                    }
-                });
+                // $(document).on('click', '.delete', function() {
+                //     var id = $(this).attr("id");
+                //     if (confirm("Are you sure you want to remove this?")) {
+                //         $.ajax({
+                //             url: "res_delete.php",
+                //             method: "POST",
+                //             data: {
+                //                 id: id
+                //             },
+                //             success: function(data) {
+                //                 $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
+                //                 $('#user_data').DataTable().destroy();
+                //                 fetch_data();
+                //             }
+                //         });
+                //         setInterval(function() {
+                //             $('#alert_message').html('');
+                //         }, 5000);
+                //     }
+                // });
             });
         </script>
 

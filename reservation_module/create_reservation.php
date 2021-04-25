@@ -28,7 +28,14 @@
                             <div class="box-body">
                                 <div class="chart" style="height: 300px;">
                                     <br>
-                                    <h1 class="text-center"> Shanuka's Module </h1>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">  </label>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
