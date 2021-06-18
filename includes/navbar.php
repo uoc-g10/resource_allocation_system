@@ -1,10 +1,41 @@
+<?php
+require '../includes/conn.php';
+session_start();
+$loginUser = '';
+$loginUserRole = '';
+$loginUserEmail = '';
+
+if (isset($_SESSION['loggedin'])) {
+  $loginUser = $_SESSION['username'];
+  $loginUserEmail = $_SESSION['email'];
+  $loginUserRole_ = $_SESSION['role'];
+  if ($loginUserRole_ == "ROLE_LECTURER") {
+    $loginUserRole = 'Lecturer';
+  } else if ($loginUserRole_ == "ROLE_ADMIN") {
+    $loginUserRole = 'Admin';
+  } else if ($loginUserRole_ == "ROLE_MANAGE_USER") {
+    $loginUserRole = 'Manage User';
+  }
+
+  $status_check = "SELECT status FROM users WHERE email= '$loginUserEmail'";
+  $result_2 = mysqli_query($conn, $status_check);
+  if (mysqli_fetch_array($result_2)[0]['status'] == 0) {
+
+    $_SESSION["u_email"] = $username;
+    $_SESSION["u_error"] = $login_err;
+
+    header('location: ../user_module/user_login.php?logout=1');
+  }
+} else {
+  header('location: ../user_module/login.php');
+}
+?>
 <header class="main-header">
 
   <a href="../user_dashboard_module/user_dashboard.php" class="logo">
     <span class="logo-mini"><b>G</b>10</span>
     <span class="logo-lg"><b>G</b>10</span>
   </a>
-
 
   <nav class="navbar navbar-static-top">
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -16,14 +47,14 @@
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src='../images/profile.jpg' class="user-image" alt="User Image">
-            <span class="hidden-xs"> --Login User name-- </span>
+            <span class="hidden-xs"> <?php echo $loginUser; ?> </span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
               <img src='../images/profile.jpg' class="img-circle" alt="User Image">
               <p>
-                Login Username
-                <small>Member since </small>
+                <?php echo $loginUser; ?>
+                <small> <?php echo $loginUserRole; ?> </small>
               </p>
             </li>
             <li class="user-footer">
@@ -31,7 +62,7 @@
                 <a href="#profile" data-toggle="modal" class="btn btn-default btn-flat" id="admin_profile">Update</a>
               </div>
               <div class="pull-right">
-                <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
+                <a href="../user_module/user_login.php?logout=1" class="btn btn-default btn-flat">Sign out</a>
               </div>
             </li>
           </ul>

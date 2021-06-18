@@ -6,8 +6,8 @@
         <img src='../images/profile.jpg' class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p> -- Login User Name -- </p>
-        <a><i class="fa fa-circle text-success"></i> Lecturer</a>
+        <p><?php echo $loginUser; ?> </p>
+        <a><i class="fa fa-circle text-success"></i> <?php echo $loginUserRole; ?></a>
       </div>
     </div>
     <div>
@@ -21,7 +21,6 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="header">LECTURER</li>
         <li class="">
           <a href="../reservation_module/create_reservation.php">
             <i class="fa fa-pencil"></i> <span>Make a Reservations</span>
@@ -29,19 +28,24 @@
         </li>
         <li class="">
           <a href="../reservation_module/my_reservations.php">
-            <i class="fa fa-calendar-o "></i> <span>My Reservations </span>
+            <i class="fa fa-calendar-o "></i> <span>My Reservations <?php echo $loginUserRole; ?> </span>
           </a>
         </li>
 
-        <li class="header">ADMIN</li>
-        <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li>
-        <li><a href="../resource_module/resources.php"><i class="fa fa-files-o"></i> <span> Manage Resources </span></a></li>
-        <li><a href="../resource_module/departments.php"><i class="fa fa-files-o"></i> <span> Manage Departments </span></a></li>
-        <li><a href="../resource_module/faculties.php"><i class="fa fa-files-o"></i> <span> Manage Faculties </span></a></li>
-        <li><a href="../user_module/users.php"><i class="fa fa-user"></i> <span> Manage Users </span></a></li>
-
-        <li class="header">REPORT</li>
-        <li><a href="../report_module/reports.php"><i class="fa fa-calendar"></i> <span> Reports </span></a></li>
+        <?php if ($loginUserRole == "Admin") { ?>
+          <li class="header">ADMIN</li>
+          <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li>
+          <li><a href="../resource_module/resources.php"><i class="fa fa-files-o"></i> <span> Manage Resources </span></a></li>
+          <li><a href="../resource_module/departments.php"><i class="fa fa-files-o"></i> <span> Manage Departments </span></a></li>
+          <li><a href="../resource_module/faculties.php"><i class="fa fa-files-o"></i> <span> Manage Faculties </span></a></li>
+          <li><a href="../user_module/users.php"><i class="fa fa-user"></i> <span> Manage Users </span></a></li>
+        <?php } ?>
+        <?php if ($loginUserRole != "Lecturer") { ?>
+          <li class="header">REPORT</li>
+          <li><a href="../report_module/reports.php"><i class="fa fa-calendar"></i> <span> Reports </span></a></li>
+        <?php } ?>
+        <li class="header">MY PROFILE</li>
+        <li><a href="../user_module/profile.php"><i class="fa fa-info-circle"></i> <span> My Profile </span></a></li>
       </ul>
     </div>
   </section>

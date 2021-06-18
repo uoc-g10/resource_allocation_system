@@ -30,7 +30,7 @@ $result_3 = mysqli_query($conn, $query3);
         <div class="content-wrapper">
 
             <section class="content-header">
-                <h1> Manage Users </h1>
+                <h1> My Profile </h1>
                 <ol class="breadcrumb">
                     <li>
                         <a href="#"><i class="fa fa-dashboard"></i> Home</a>
@@ -60,7 +60,7 @@ $result_3 = mysqli_query($conn, $query3);
                                         <div class="col-md-4">
                                             <div class="row">
                                                 <div class="input-group">
-                                                    <input type="search" class="form-control" id="custom-search">
+                                                    <input type="search" class="form-control">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default btn-flat" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true">
                                                             </span> Search!</button>
@@ -134,7 +134,7 @@ $result_3 = mysqli_query($conn, $query3);
                                 <label for="mobile" class="col-sm-3 control-label">Mobile Number</label>
 
                                 <div class="col-sm-9">
-                                    <input type="tel" class="form-control" maxlength="10" id="mobile" name="mobile" placeholder="User Mobile Number" required>
+                                    <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="User Mobile Number" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -186,7 +186,7 @@ $result_3 = mysqli_query($conn, $query3);
                                 <label for="password" class="col-sm-3 control-label">Repeat Password</label>
 
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" id="password2" name="password" placeholder="Re Password" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Re Password" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -211,84 +211,78 @@ $result_3 = mysqli_query($conn, $query3);
         </div>
 
         <!-- Edit User -->
-        <div class="modal fade" id="editUserModal">
+        <div class="modal fade" id="editUser">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><b>Edit User Details</b></h4>
+                        <h4 class="modal-title"><b>Edit User</b></h4>
                     </div>
-                    <form class="form-horizontal" method="POST" id="editUserFrm" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="#" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="title" class="col-sm-3 control-label">Title</label>
+
                                 <div class="col-sm-9">
-                                    <select name="title" class="form-control" id="title_edit" required>
-                                        <option value="Mr."> Mr. </option>
-                                        <option value="Mr."> Mrs. </option>
-                                        <option value="Mr."> Miss. </option>
-                                        <option value="Mr."> Dr. </option>
-                                        <option value="Mr."> Rev. </option>
-                                    </select>
+                                    <input type="text" class="form-control" id="title" name="title" value="User Title">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="firstname_edit" class="col-sm-3 control-label">First Name</label>
+                                <label for="firstname" class="col-sm-3 control-label">First Name</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="firstname_edit" name="firstname" placeholder="First Name" required>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="First Name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="secondname_edit" class="col-sm-3 control-label">Second Name</label>
+                                <label for="secondname" class="col-sm-3 control-label">Second Name</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="secondname_edit" name="secondname" placeholder="Second Name" required>
+                                    <input type="text" class="form-control" id="secondname" name="secondname" value="Second Name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mobile_edit" class="col-sm-3 control-label">Mobile Number</label>
+                                <label for="mobile" class="col-sm-3 control-label">Mobile Number</label>
 
                                 <div class="col-sm-9">
-                                    <input type="tel" class="form-control" maxlength="10" id="mobile_edit" name="mobile" placeholder="User Mobile Number" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="role_edit" class="col-sm-3 control-label">User Role</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" id="role_edit" name="role" required>
-                                        <option value="ROLE_LECTURER">Lecturer</option>
-                                        <option value="ROLE_MANAGE_USER">Managemt User</option>
-                                        <option value="ROLE_ADMIN">Admin</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="faculty_edit" class="col-sm-3 control-label">Faculty</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" id="faculty_edit" name="faculty" required>
-                                        <?php foreach ($faculties as $faculty) {
-                                            echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
-                                        } ?>
-                                    </select>
+                                    <input type="tel" class="form-control" id="mobile" name="mobile" value="User Mobile Number">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="department_edit" class="col-sm-3 control-label">Department</label>
+                                <label for="department" class="col-sm-3 control-label">Department</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" id="department_edit" name="department" required>
-                                    </select>
+                                    <input type="text" class="form-control" id="department" name="department" value="Department">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-3 control-label">Email Address</label>
+
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="email" name="email" value="sample@mail.com">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-sm-3 control-label">Password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="password" name="password" value="password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-sm-3 control-label">Repeat Password</label>
+
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="password" name="password" value="password">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                            <button type="submit" class="btn btn-success btn-flat" name="save"><i class="fa fa-check-square-o"></i> Save</button>
+                            <button type="submit" class="btn btn-success btn-flat" name="save"><i class="fa fa-check-square-o"></i> Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -325,14 +319,6 @@ $result_3 = mysqli_query($conn, $query3);
         <?php include '../includes/footer.php'; ?>
     </div>
     <script>
-        $(document).ready(function() {
-            //$("#user_data_filter").hide();
-            $("#custom-search").on('input', function() {
-                $("#user_data_filter input").val($(this).val());
-            });
-        });
-
-
         // json array of faculties and departments
         var array = <?php echo json_encode($departments); ?>
 
@@ -347,40 +333,8 @@ $result_3 = mysqli_query($conn, $query3);
             }
         });
 
-        // Edit User Details
-
-        $(document).on('click', '.edit-user', function() {
-            var uid = $(this).attr('user-id');
-            $.post('users_fetch.php', {
-                user_edit: 1,
-                user_id: uid
-            }, function(data) {
-                var userData = JSON.parse(data);
-                console.log(userData.firstname);
-                $('#title_edit').val(userData.title);
-                $('#firstname_edit').val(userData.firstname);
-                $('#secondname_edit').val(userData.secondname);
-                $('#mobile_edit').val(userData.mobile);
-                $('#role_edit').val(userData.role);
-                $('#department_edit').val(userData.department);
-                $('#email_edit').val(userData.email);
-                $("#editUserModal").modal('show');
-                updateFaculties(fid);
-            });
-        });
-
-        // $(document).on('click', '.edit-user', function() {
-        //     var uid = $(this).attr('user-id');
-        //     $.post('users_fetch.php', {
-        //         user_edit: 1,
-        //         user_id: uid
-        //     }, function(data) {
-
-        //     });
-        // });
-
         // Change departments when faculty change
-        $("#faculty, #faculty_edit").on('change', function() {
+        $("#faculty").on('change', function() {
             var fid = $(this).val();
             updateFaculties(fid);
         });
@@ -403,7 +357,6 @@ $result_3 = mysqli_query($conn, $query3);
         // Change departments Function
         function updateFaculties(fid) {
             $('#department option').remove();
-            $('#department_edit option').remove();
             for (i = 0; i < array[fid].length; i++) {
                 var id = array[fid][i]['id'];
                 var name = array[fid][i]['name'];
@@ -412,7 +365,6 @@ $result_3 = mysqli_query($conn, $query3);
                 option.attr('value', id);
                 option.append(name);
                 $('#department').append(option);
-                $('#department_edit').append(option);
             }
         }
 
@@ -426,7 +378,7 @@ $result_3 = mysqli_query($conn, $query3);
                     document.getElementById('userCreateFrm').reset();
                     $("#addUser").modal('hide');
                     dataTable.ajax.reload();
-                    showMessage('success', 'New User has been created successfully')
+                    showMessage('success', 'Resource details has been updated successfully')
                 }
             });
         });

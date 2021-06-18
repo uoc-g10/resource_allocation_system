@@ -4,8 +4,12 @@
 <script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../bower_components/dist/js/adminlte.min.js"></script>
-<script src="../bower_components/dist/js/demo.js"></script>
+<script src="../public/js/jq.schedule.min.js"></script>
+<script src="../public/js/bootstrap-picker.js"></script>
+<script src="../public/js/picker.js"></script>
+<script src="../public/js/picker.time.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 
 <script>
   $(function() {
@@ -25,5 +29,4 @@
     }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 
   });
-  
 </script>

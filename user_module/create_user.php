@@ -1,51 +1,42 @@
-<?php include '../common/header.php'; ?>
+<?php
+require '../includes/conn.php';
 
-<body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
+$status = 0;
 
-        <?php include '../includes/navbar.php'; ?>
-        <?php include '../includes/menubar.php'; ?>
+if (isset($_POST['title'])) {
 
-        <div class="content-wrapper">
+    $title = $_POST['title'];
+    $firstname = $_POST['firstname'];
+    $secondname = $_POST['secondname'];
+    $mobile = $_POST['mobile'];
+    $role = $_POST['role'];
 
-            <section class="content-header">
-                <h1> Manage Users </h1>
-                <ol class="breadcrumb">
-                    <li>
-                        <a href="#"><i class="fa fa-dashboard"></i> Home</a>
-                    </li>
-                    <li class="active">
-                        Dashboard
-                    </li>
-                </ol>
-            </section>
+    $email = $_POST['email'];
+    $password_raw = $_POST['password'];
+    $password = password_hash($password_raw, PASSWORD_DEFAULT);
 
-            <section class="content">
+    $role = $_POST['role'];
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="box">
-                            <div class="box-body">
-                                <div class="chart" style="height: 300px;">
-                                    <br>
-                                    <h1 class="text-center"> Priyangani's Module </h1>
+    $department = 'null';
+    $faculty = 'null';
 
+    if ($role == "ROLE_LECTURER") {
+        $department = $_POST['department'];
+        $faculty = $_POST['faculty'];
+    }
 
+    $send_mail = $_POST['send_mail'];
+    $sql = "INSERT INTO users (title,firstname,secondname,email,password,mobile,role,department,last_login,status) 
+    VALUES('$title', '$firstname','$secondname','$email','$password','$mobile','$role',$department,null,1)";
 
-                                    
+    if ($conn->query($sql) == TRUE) {
+        $status = 1;
+    } else {
+        echo "Error" . $sql . $conn->error;
+    }
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+    $conn->close();
+}
 
-        <?php include '../includes/scripts.php'; ?>
-        <?php include '../includes/footer.php'; ?>
-    </div>
-
-</body>
-
-</html>
+echo $status;
+exit();

@@ -1,0 +1,54 @@
+.calendar-sidebar {
+    background-color: #222d32;  
+    box-shadow: 5px 0 0px -3px #ffffff; 
+}
+.evo-calendar {
+    box-shadow: 0 10px 0px -20px #8773c1;
+}
+#logs{
+    border: solid 1px #bbb;
+    padding: 16px;
+    background: #eee;
+}
+#logs .table{
+    margin-bottom: 0;
+}
+#logs .table td,
+#logs .table th{
+    border: none;
+}
+#schedule .sc_bar_insert{
+    background-color: #ff678a;
+}
+#schedule .example2{
+    background-color: #3eb698;
+}
+#schedule .example3{
+    color: #2c0000;
+    font-weight: bold;
+    background-color: #c7ae50;
+}
+#schedule .sc_bar.sc_bar_photo .head,
+#schedule .sc_bar.sc_bar_photo .text{
+    padding-left: 60px;
+}
+#schedule .sc_bar.sc_bar_photo .photo{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 38px;
+}
+#schedule .sc_bar.sc_bar_photo .photo img{
+    max-width: 100%;
+}
+.picker__list {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+.ttime {
+    float: right !important;
+}
+.picker__list-item--disabled, .picker__list-item--disabled:hover, .picker--focused .picker__list-item--disabled {
+    color: #adadad;
+    background: #f3f3f3;
+}
