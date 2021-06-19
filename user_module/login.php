@@ -14,6 +14,48 @@ if (isset($_SESSION["u_email"])) {
 ?>
 
 <style>
+    body {
+        background-color: #631011;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23f2272a' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%23631011' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%236c1112' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%23741113' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%237d1214' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%23861316' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%238f1316' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23981417' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%23a11418' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23aa1519' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%23b3161a' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%23bc161a' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23c6171b' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23cf181b' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%23d9181c' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%23e2191c' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%23ec1a1c' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%23f51b1c' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%23ff1c1c' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+        background-attachment: fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-box-body,
+    .register-box-body {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #7f1416;
+        border-color: #7f1416;
+        padding: 11px;
+        border-radius: 4px !important;
+    }
+
+    .form-control:focus {
+        border-color: #9d1518;
+        box-shadow: none;
+    }
+
+    .form-control {
+        height: 40px;
+        border-radius: 4px !important;
+    }
+
+    .form-control-feedback {
+        width: 38px;
+        height: 45px;
+        line-height: 41px;
+    }
+
+    .login-box-body {
+        padding: 25px;
+    }
+
     .alert {
         text-align: center;
         /* width: auto; */
@@ -69,10 +111,18 @@ if (isset($_SESSION["u_email"])) {
         -moz-osx-font-smoothing: grayscale;
         padding-right: 10px;
     } */
+    .login-box-1 {
+        width: 350px;
+    }
+
+    .login-box-msg {
+        padding: 0;
+        padding-top: 16px;
+    }
 </style>
 
 <body class="hold-transition login-page">
-    <div class="login-box">
+    <div class="login-box-1">
 
         <div class="login-box-body">
             <div class="text-center">
@@ -80,7 +130,7 @@ if (isset($_SESSION["u_email"])) {
                 <br>
             </div>
 
-            <h3 class="login-box-msg"> Online Resource Allocation System </h3>
+            <h3 class="login-box-msg">Resource Allocation System </h3>
             <?php if ($u_error) {
             ?>
                 <div class="alert error" role="alert">

@@ -1,14 +1,15 @@
 <?php
 require '../includes/conn.php';
-session_start();
 $loginUser = '';
 $loginUserRole = '';
 $loginUserEmail = '';
 
 if (isset($_SESSION['loggedin'])) {
+
   $loginUser = $_SESSION['username'];
   $loginUserEmail = $_SESSION['email'];
   $loginUserRole_ = $_SESSION['role'];
+
   if ($loginUserRole_ == "ROLE_LECTURER") {
     $loginUserRole = 'Lecturer';
   } else if ($loginUserRole_ == "ROLE_ADMIN") {
@@ -19,16 +20,18 @@ if (isset($_SESSION['loggedin'])) {
 
   $status_check = "SELECT status FROM users WHERE email= '$loginUserEmail'";
   $result_2 = mysqli_query($conn, $status_check);
-  if (mysqli_fetch_array($result_2)[0]['status'] == 0) {
 
+  if (mysqli_fetch_array($result_2)['status'] == 0) {
     $_SESSION["u_email"] = $username;
     $_SESSION["u_error"] = $login_err;
+    exit();
 
     header('location: ../user_module/user_login.php?logout=1');
   }
 } else {
   header('location: ../user_module/login.php');
 }
+
 ?>
 <header class="main-header">
 
@@ -37,7 +40,7 @@ if (isset($_SESSION['loggedin'])) {
     <span class="logo-lg"><b>G</b>10</span>
   </a>
 
-  <nav class="navbar navbar-static-top">
+  <nav class="navbar navbar-static-top navbar-fixed-top">
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
       <span class="sr-only">Toggle navigation</span>
     </a>
@@ -46,12 +49,12 @@ if (isset($_SESSION['loggedin'])) {
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src='../images/profile.jpg' class="user-image" alt="User Image">
+            <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="user-image" alt="User Image">
             <span class="hidden-xs"> <?php echo $loginUser; ?> </span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
-              <img src='../images/profile.jpg' class="img-circle" alt="User Image">
+              <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
               <p>
                 <?php echo $loginUser; ?>
                 <small> <?php echo $loginUserRole; ?> </small>
@@ -73,7 +76,7 @@ if (isset($_SESSION['loggedin'])) {
 </header>
 
 <!-- Add -->
-<div class="modal fade" id="profile">
+<!-- <div class="modal fade" id="profile">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -134,4 +137,4 @@ if (isset($_SESSION['loggedin'])) {
       </div>
     </div>
   </div>
-</div>
+</div> -->

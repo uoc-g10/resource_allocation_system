@@ -22,21 +22,32 @@ if (isset($_POST['loadSchedule'])) {
         $qDate = date("Y-m-d", strtotime($day));
         $DateName = date("l", strtotime($day));
 
-        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm INNER JOIN users as usr ON urm.user_id = usr.id WHERE start_time LIKE '$qDate%'";
+        $query2 = "SELECT urm.*, usr.id as user_id, usr.firstname, usr.title as utitle, usr.secondname, usr.image_path, usr.color FROM user_resource_map as urm INNER JOIN users as usr ON urm.user_id = usr.id WHERE start_time LIKE '$qDate%'";
 
         $result2 = mysqli_query($conn, $query2);
         while ($ress = mysqli_fetch_array($result2)) {
             $startDate = date("H:i", strtotime($ress['start_time']));
             $endDate = date("H:i", strtotime($ress['end_time']));
 
+            $lecturerImage = '../images/profile.jpg';
+            if ($ress['image_path']) {
+                $lecturerImage = '../' . $ress['image_path'];
+            }
+
             $reservations[] = [
                 "start" => $startDate,
                 "end" => $endDate,
                 "text" => $ress['title'],
                 "data" => array(
+                    "id" => $ress['id'],
+                    "actions" => $ress['user_id'] == $User['id'] ? 1 : 0,
                     "class" => "example2",
-                    "test" => $ress['description'],
-                    "image" => "../img/1.png"
+                    "color" => str_replace('#', '_', $ress['color']),
+                    "description" => $ress['description'],
+                    "headding" => $ress['title'],
+                    "lecturer" => $ress['utitle'] . ' ' . $ress['firstname'] . ' ' . $ress['secondname'],
+                    "image" => $lecturerImage,
+                    "dateRange" =>  date("h:i A", strtotime($ress['start_time'])) . ' - ' .  date("h:i A", strtotime($ress['end_time']))
                 )
             ];
         }
@@ -51,6 +62,8 @@ if (isset($_POST['loadSchedule'])) {
     echo json_encode($Data);
     exit();
 }
+
+
 
 // Reservation Modal Deta
 if (isset($_POST['addReservationModal'])) {
@@ -108,8 +121,9 @@ if (isset($_POST['addReservationModal'])) {
 }
 
 
-// Generate End Time 
 
+
+// Generate End Time 
 if (isset($_POST['getEndTime'])) {
     $inputTime = $_POST['inputTime'];
     $resDay = $_POST['resDay'];
@@ -208,6 +222,7 @@ function hourMinute2Minutes($strHourMinute)
 
 
 // Make Reservation
+
 if (isset($_POST['make_reservation'])) {
     $user_id = $_SESSION['id'];
     $resource_id = $_POST['resource_id'];
@@ -241,6 +256,15 @@ if (isset($_POST['make_reservation'])) {
 }
 
 
-// Get Disable Time Ranges
-if (isset($_POST['getDisableTimes']) and isset($_POST['date'])) {
+// Remove Reservation
+
+if (isset($_POST['removeSchedule']) and isset($_POST['scheduleId'])) {
+    $status = 0;
+    $scheduleId = $_POST["scheduleId"];
+    $query = "DELETE FROM user_resource_map WHERE id=$scheduleId";
+    if (mysqli_query($conn, $query)) {
+        $status = 1;
+    }
+    echo $status;
+    exit();
 }

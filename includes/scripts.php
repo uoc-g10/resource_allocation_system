@@ -8,6 +8,12 @@
 <script src="../public/js/bootstrap-picker.js"></script>
 <script src="../public/js/picker.js"></script>
 <script src="../public/js/picker.time.js"></script>
+<script src="../public/js/popModal.js"></script>
+<script src="../public/js/jnoty.min.js"></script>
+<script src="../public/js/colorPick.js"></script>
+<script src="../public/js/script.js"></script>
+
+<!-- <script src="../public/js/index.min.js"></script> -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 

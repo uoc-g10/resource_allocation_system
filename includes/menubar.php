@@ -3,7 +3,7 @@
     <br>
     <div class="user-panel">
       <div class="pull-left image">
-        <img src='../images/profile.jpg' class="img-circle" alt="User Image">
+        <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p><?php echo $loginUser; ?> </p>
@@ -38,6 +38,7 @@
           <li><a href="../resource_module/resources.php"><i class="fa fa-files-o"></i> <span> Manage Resources </span></a></li>
           <li><a href="../resource_module/departments.php"><i class="fa fa-files-o"></i> <span> Manage Departments </span></a></li>
           <li><a href="../resource_module/faculties.php"><i class="fa fa-files-o"></i> <span> Manage Faculties </span></a></li>
+          <li><a href="../user_module/lecturers.php"><i class="fa fa-user"></i> <span> Lecturers </span></a></li>
           <li><a href="../user_module/users.php"><i class="fa fa-user"></i> <span> Manage Users </span></a></li>
         <?php } ?>
         <?php if ($loginUserRole != "Lecturer") { ?>

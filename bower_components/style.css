@@ -21,7 +21,12 @@
     background-color: #ff678a;
 }
 #schedule .example2{
-    background-color: #3eb698;
+    height: 95px !important;
+    margin-top: 2px;
+    border-radius: 5px;
+}
+.ui-resizable-handle  {
+    display: none !important;
 }
 #schedule .example3{
     color: #2c0000;
@@ -30,7 +35,7 @@
 }
 #schedule .sc_bar.sc_bar_photo .head,
 #schedule .sc_bar.sc_bar_photo .text{
-    padding-left: 60px;
+    padding-left: 65px;
 }
 #schedule .sc_bar.sc_bar_photo .photo{
     position: absolute;
@@ -39,7 +44,10 @@
     width: 38px;
 }
 #schedule .sc_bar.sc_bar_photo .photo img{
-    max-width: 100%;
+    width: 45px;
+    border: 2px solid white;
+    border-radius: 37px;
+    box-shadow: 0px -1px 6px 0px #525252;
 }
 .picker__list {
     padding-bottom: 0 !important;
@@ -52,3 +60,100 @@
     color: #adadad;
     background: #f3f3f3;
 }
+.popModal {
+    margin-left: 10px !important;
+}
+.d-flex {
+    display: flex;
+}
+.mail-to-i {
+    margin-top: 5px;
+    margin-right: 8px;
+}
+.border-red {
+    border-color: red;
+}
+.color-red {
+    color: #ff5454;
+}
+.user-image {
+    height: 150px;
+    width: 150px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    margin-left: 104px;
+}
+.user-image-wapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-direction: row;
+}
+.colorPickSelector {
+    border-radius: 5px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    -webkit-transition: all linear .2s;
+    -moz-transition: all linear .2s;
+    -ms-transition: all linear .2s;
+    -o-transition: all linear .2s;
+    transition: all linear .2s;
+  }
+  
+  .colorPickSelector:hover { transform: scale(1.1); }
+  #colorPick {
+    width: 254px;
+    background: rgb(255 255 255);
+  }
+  .main-header {
+      position: fixed;
+  }
+  .main-sidebar {
+      position: fixed;
+  }
+  .content-wrapper {
+  margin-top: 50px;
+  }
+  ._9b59b6 {
+    background-color: #9b59b6 !important;
+  }
+  ._3498db {
+    background-color: #3498db !important;
+  }
+  ._f1c40f {
+    background-color: #f1c40f !important;
+  }
+  ._8e44ad {
+    background-color: #8e44ad !important;
+  }
+  .lecturer-name {
+    padding-left: 65px;
+    font-size: 12px;
+  }
+  .jq-schedule .sc_bar .head {
+    height: 18px;
+    font-size: 15px;
+  }
+  .jq-schedule .timeline {
+    border-bottom: solid 2px #ececec;
+  }
+  .info-headding {
+    font-weight: bold;
+    margin-top: -7px;
+    margin-bottom: 5px;
+  }
+  .info-description {
+    font-size: 12px;
+    padding-bottom: 10px;
+
+  }
+  .info-time {
+    font-size: 13px;
+    padding-bottom: 9px;
+  }
+  .info-buttons {
+    text-align: left;
+    margin-bottom: -17px;
+  }

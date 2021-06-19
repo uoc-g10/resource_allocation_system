@@ -1,10 +1,13 @@
 <form class="form-horizontal" method="POST" id="createReservationFrm" enctype="multipart/form-data">
     <div class="modal-body">
-        <div class="form-group">
+        <input type="hidden" id="resource_id" name="resource_id" value="<?php echo $resource_id; ?>">
+        <input type="hidden" name="make_reservation" value="1">
+        <input type="hidden" id="form_reservation_date" name="form_reservation_date" value="<?php echo $resDay; ?>">
+        <input type="hidden" id="form_resource" name="form_resource" value="<?php echo $resource_id; ?>">
+        <!-- <div class="form-group">
             <label for="firstname_edit" class="col-sm-3 control-label">Reservation Date</label>
             <div class="col-sm-9">
-                <input type="hidden" id="resource_id" name="resource_id" value="<?php echo $resource_id; ?>">
-                <input type="hidden" name="make_reservation" value="1">
+
                 <input type="text" class="form-control" id="form_reservation_date" name="form_reservation_date" value="<?php echo $resDay; ?>" readonly>
             </div>
         </div>
@@ -13,7 +16,7 @@
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="form_resource" name="form_resource" value="<?php echo $resource_id; ?>" readonly>
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
             <label for="reservation_title" class="col-sm-3 control-label">Reservation Title</label>
             <div class="col-sm-9">
@@ -77,7 +80,32 @@
             url: 'reservation_functions.php',
             data: $('#createReservationFrm').serialize(),
             success: function(response) {
-                //console.log(response);
+
+                if (response == 5) {
+                    $.jnoty("Please Input Start Time", {
+                        header: 'Input Start Time',
+                        theme: 'jnoty-danger',
+                        life: 3000,
+                    });
+                }
+
+                if (response == 4) {
+                    $.jnoty("Please Input End Time", {
+                        header: 'Input End Time',
+                        theme: 'jnoty-danger',
+                        life: 3000,
+                    });
+                }
+
+                if (response == 1) {
+                    $("#createReservation").modal('hide');
+                    $.jnoty("Your Reservation Created", {
+                        header: 'Input End Time',
+                        theme: 'jnoty-success',
+                        life: 3000,
+                    });
+                    $("#reloadTableData").trigger('click');
+                }
             }
         });
     });

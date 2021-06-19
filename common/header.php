@@ -17,7 +17,10 @@
 	<!-- <link rel="stylesheet" href="../public/css/default.time.css"> -->
 	<link rel="stylesheet" href="../public/css/classic.css">
 	<link rel="stylesheet" href="../public/css/classic.time.css">
-	<link rel="stylesheet" href="../public/css/bootstrap-picker.min.css">
+	<link rel="stylesheet" href="../public/css/jnoty.min.css">
+	<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../public/css/popModal.css">
+	<link rel="stylesheet" href="../public/css/colorPick.css">
 	<link rel="stylesheet" href="../bower_components/style.css">
 
 	<!-- Google Font -->
@@ -67,4 +70,4 @@
 	</style>
 </head>
 
-</html>
+<body class="hold-transition skin-blue sidebar-mini <?php echo isset($_COOKIE['sidebar-collapse'])? 'sidebar-collapse' : ''?>">
