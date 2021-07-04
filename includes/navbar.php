@@ -36,8 +36,8 @@ if (isset($_SESSION['loggedin'])) {
 <header class="main-header">
 
   <a href="../user_dashboard_module/user_dashboard.php" class="logo">
-    <span class="logo-mini"><b>G</b>10</span>
-    <span class="logo-lg"><b>G</b>10</span>
+    <span class="logo-mini"><b>SRAS</b></span>
+    <span class="logo-lg"><b>SRAS</b></span>
   </a>
 
   <nav class="navbar navbar-static-top navbar-fixed-top">

@@ -36,6 +36,17 @@ if (isset($_SESSION["u_email"])) {
         border-radius: 4px !important;
     }
 
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary.hover,
+    .btn-primary.focus,
+    .btn-primary:focus,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover {
+        background-color: #b52c1f;
+        border-color: #7f1416;
+    }
+
     .form-control:focus {
         border-color: #9d1518;
         box-shadow: none;
@@ -66,12 +77,13 @@ if (isset($_SESSION["u_email"])) {
         /* border-radius: 0; */
         /* padding-left: 10px; */
         /* padding-right: 40px; */
-        font-size: 18px;
+        font-size: 14px;
         /* margin-bottom: 10px; */
         /* margin-top: 10px; */
         /* box-shadow: rgb(0 0 0 / 6%) 0px 0px 10px; */
         border: 1px solid #ff000033;
-        color: red;
+        color: #e2393c;
+        padding: 6px;
     }
 
     .close-alert {
@@ -91,7 +103,6 @@ if (isset($_SESSION["u_email"])) {
     }
 
     .error.alert {
-        border-left: 6px solid #ff0000;
         background: white;
     }
 
@@ -129,24 +140,19 @@ if (isset($_SESSION["u_email"])) {
                 <img src="../images/logo-public.png" width="100px">
                 <br>
             </div>
-
             <h3 class="login-box-msg">Resource Allocation System </h3>
-            <?php if ($u_error) {
-            ?>
-                <div class="alert error" role="alert">
-                    <p>
-                        <i class="fa fa-user-times" aria-hidden="true" style="margin-right: 5px;"></i>
-                        <?php echo $u_error; ?>
-                    </p>
-                </div>
-            <?php
-            }
-            ?>
             <hr>
-
             <div class="login-logo">
                 <h3> <b> Login </b> </h3>
             </div>
+            <?php if ($u_error) { ?>
+                <div class="alert error" role="alert">
+                    <p>
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right: 5px;"></i>
+                        <?php echo $u_error; ?>
+                    </p>
+                </div>
+            <?php } ?>
 
             <form action="user_login.php" method="POST">
                 <div class="form-group has-feedback">
@@ -163,8 +169,37 @@ if (isset($_SESSION["u_email"])) {
                         <button type="submit" class="btn btn-primary btn-block btn-flat" name="login"><i class="fa fa-sign-in"></i> Sign In</button>
                     </div>
                 </div>
+
                 <br>
+                <div class="text-center">
+                    <a href="password-reset.php" class="text-muted">
+                        <i class="fa fa-refresh"></i> Forgot my passowrd
+                    </a>
+                </div>
+
             </form>
         </div>
     </div>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script>
+        var loginError = "<?php echo $u_error; ?>";
+        if (loginError) {
+            setTimeout(function() {
+                //$('.error').hide();
+            }, 5000);
+        }
+
+        $("[name='username'], [name='password']").on('input', function() {
+            $('.error').hide();
+        });
+
+        $('[name="login"]').click(function() {
+            var email = $("[name='username']").val();
+            var password = $("[name='password']").val();
+
+            if (email && password) {
+                $(this).html('<i class="fa fa-spin fa-spinner"></i>');
+            }
+        });
+    </script>
 </body>

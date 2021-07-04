@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title> Online allocation system </title>
+	<title> Smart Resource Allocation System </title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../bower_components/scheduler/jquery.skedTape.css">
@@ -21,6 +21,16 @@
 	<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="../public/css/popModal.css">
 	<link rel="stylesheet" href="../public/css/colorPick.css">
+	<!-- <link rel="stylesheet" href="../public/css/duDatepicker.min.css"> -->
+	<link rel="stylesheet" href="../public/css/fullCalender.css">
+	<link rel="stylesheet" href="../public/css/jquery.timeline.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@banminkyoz/lightpick@1.2.12/css/lightpick.css">
+	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+
+	<!-- If you use the default popups, use this. -->
+	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+
 	<link rel="stylesheet" href="../bower_components/style.css">
 
 	<!-- Google Font -->
@@ -70,4 +80,4 @@
 	</style>
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini <?php echo isset($_COOKIE['sidebar-collapse'])? 'sidebar-collapse' : ''?>">
+<body class="hold-transition skin-blue sidebar-mini <?php echo isset($_COOKIE['sidebar-collapse']) ? 'sidebar-collapse' : '' ?>">

@@ -15,6 +15,10 @@ include '../common/header.php';
         font-size: 15px;
     }
 
+    .dcalendarpicker .dudp__wrapper {
+        bottom: 24%;
+    }
+
     /* .modal.in .modal-dialog {
         -webkit-transform: translate(0, calc(50vh - 50%));
         -ms-transform: translate(0, 50vh) translate(0, -50%);
@@ -22,6 +26,7 @@ include '../common/header.php';
         transform: translate(0, 50vh) translate(0, -50%);
     } */
 </style>
+
 
 
 <div class="wrapper">
@@ -54,11 +59,9 @@ include '../common/header.php';
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="col-md-12">
-                                            <label class="reservation-titles"> Lecturer </label>
-                                            <select class="form-control">
-                                                <option> Dr.Rohan Samarasinghe </option>
-                                                <option> Mrs.Nethmini Weerasinghe </option>
-                                            </select>
+                                            <label class="reservation-titles" id="test123"> Date Range </label>
+                                            <!-- <input type="date" name="dates" class="form-control"> -->
+                                            <input type="text" id="datepicker123" class="form-control" value="26/06/2021 - 03/07/2021">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -111,17 +114,90 @@ include '../common/header.php';
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="editReservation" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="reservationEditModalTitle"><b>Edit Reservation</b></h4>
+                </div>
+                <div id="reservaionEditModalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button class="btn btn-primary" id="reloadTableData" style="display: none;">Basic</button>
     <?php
     include '../includes/scripts.php';
     include '../includes/footer.php';
     ?>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function() {
 
+        duDatepicker('#datepicker1', {
+            format: 'mmmm d, yyyy',
+            range: true,
+            minDate: 'today',
+            clearBtn: true,
+            //setValue: 'June 20-30, 2021',
+            // disabledDays: ['Sat', 'Sun'],
+            events: {
+                dateChanged: function(data) {
+                    //log('From: ' + data.dateFrom + '\nTo: ' + data.dateTo)
+                },
+                onRangeFormat: function(from, to) {
+                    var fromFormat = 'mmmm d, yyyy',
+                        toFormat = 'mmmm d, yyyy';
+
+                    if (from.getMonth() === to.getMonth() && from.getFullYear() === to.getFullYear()) {
+                        fromFormat = 'mmmm d'
+                        toFormat = 'd, yyyy'
+                    } else if (from.getFullYear() === to.getFullYear()) {
+                        fromFormat = 'mmmm d'
+                        toFormat = 'mmmm d, yyyy'
+                    }
+
+                    return from.getTime() === to.getTime() ?
+                        this.formatDate(from, 'mmmm d, yyyy') : [this.formatDate(from, fromFormat), this.formatDate(to, toFormat)].join('-');
+                }
+            }
+        })
+
         $('#reloadTableData').click(function() {
             loadScheduleData();
+        });
+
+        var selectedStart = '';
+        var selectedEnd = '';
+
+        var picker = new Lightpick({
+            field: document.getElementById('datepicker123'),
+            singleDate: false,
+            selectForward: true,
+            repick: true,
+            footer: true,
+            minDate: moment().endOf('day'),
+            onSelect: function(start, end) {
+                selectedStart = start.format('D-M-YYYY');
+                selectedEnd = end.format('D-M-YYYY');
+            },
+            onClose: function() {
+                $.post('reservation_functions.php', {
+                    dateRengeSessonSet: 1,
+                    selectedStart: selectedStart,
+                    selectedEnd: selectedEnd
+                }, function(res) {
+                    if (res == 1) {
+                        loadScheduleData();
+                    }
+                });
+            }
         });
 
         var isDraggable = false;
@@ -182,7 +258,7 @@ include '../common/header.php';
                 var actionButtons = '';
                 console.log(data.data.actions);
                 if (data.data.actions) {
-                    actionButtons = "<div class='info-buttons' data-headding='" + data.data.headding + "' data-id='" + data.data.id + "'> <button class='btn btn-default'> <i class='fa fa-edit'></i> </button> <button class='btn btn-danger remove-schedule-event'> <i class='fa fa-trash'></i> </button> </div>";
+                    actionButtons = "<div class='info-buttons' data-headding='" + data.data.headding + "' data-date='" + data.data.date + "' data-id='" + data.data.id + "'> <button class='btn btn-default edit-schedule-event'> <i class='fa fa-edit'></i> </button> <button class='btn btn-danger remove-schedule-event'> <i class='fa fa-trash'></i> </button> </div>";
                 }
 
                 node.prepend("<div style='display:none;'><div id='popid_" + ramdom_id + "'> <div class='info-headding'> " + data.data.headding + " </div> <div class='info-description'> " + data.data.description + " </div> <div class='info-time'> " + data.data.dateRange + " </div>  " + actionButtons + " </div> </div>");
@@ -200,6 +276,23 @@ include '../common/header.php';
             //     });
             //     //addLog('onScheduleClick', time + ' ' + timeline);
             // },
+        });
+
+        $(document).on('click', '.edit-schedule-event', function() {
+            var scheduleId = $(this).parent().attr('data-id');
+            var scheduleHeadding = $(this).parent().attr('data-headding');
+            var resDay = $(this).parent().attr('data-date');
+            $(this).parent().parent().parent().prev('button').trigger('click');
+
+            $.post('reservation_functions.php', {
+                editReservationModal: 1,
+                scheduleId: scheduleId,
+                resDay: resDay
+            }, function(data) {
+                $("#editReservation #reservationEditModalTitle").html('<strong> ' + scheduleHeadding + '</strong> <small>( ' + resDay + ')</small>');
+                $("#editReservation #reservaionEditModalBody").html(data);
+                $('#editReservation').modal('show');
+            });
         });
 
         $(document).on('click', '.remove-schedule-event', function() {
@@ -239,7 +332,7 @@ include '../common/header.php';
             if (!$('html').hasClass('popModalOpen')) {
                 loadScheduleData();
             }
-        }, 10000);
+        }, 60000);
 
         loadScheduleData();
 
@@ -252,9 +345,21 @@ include '../common/header.php';
                 },
             }).done((data) => {
                 var scheduleData = JSON.parse(data);
+                var startDayRaw = scheduleData['start'];
+                var endDayRaw = scheduleData['end'];
                 delete scheduleData['remove'];
+                delete scheduleData['start'];
+                delete scheduleData['end'];
+
 
                 $sc.timeSchedule('setRows', scheduleData);
+
+                var a = moment(startDayRaw, 'D/M/YYYY');
+                var b = moment(endDayRaw, 'D/M/YYYY');
+
+                picker.setDateRange(
+                    a, b
+                );
             });
         }
 

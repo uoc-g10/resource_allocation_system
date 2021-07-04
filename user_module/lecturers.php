@@ -400,10 +400,17 @@ $result_3 = mysqli_query($conn, $query3);
             url: 'lecturers_fetch.php',
             data: $('#lecturerCreateFrm').serialize(),
             success: function(response) {
-                var responseArray = JSON.parse(response);
-                console.log(responseArray);
-                $('#' + responseArray[0]['id']).addClass('border-red');
-                $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
+                if (response == 1) {
+                    document.getElementById('lecturerCreateFrm').reset();
+                    $("#addUser").modal('hide');
+                    //dataTable.ajax.reload();
+                    // showMessage('success', 'New User has been created successfully')
+                } else {
+                    var responseArray = JSON.parse(response);
+                    console.log(responseArray);
+                    $('#' + responseArray[0]['id']).addClass('border-red');
+                    $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
+                }
                 // document.getElementById('lecturerCreateFrm').reset();
                 // $("#addUser").modal('hide');
                 // dataTable.ajax.reload();

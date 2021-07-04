@@ -47,7 +47,7 @@ if (!isset($_SESSION['id'])) {
     <div class="content-wrapper">
         <section class="content-header">
             <div class="col-xs-12">
-                <h1> My Profile </h1>
+                <h2> My Profile </h2>
 
                 <ol class="breadcrumb">
                     <li>
@@ -84,7 +84,7 @@ if (!isset($_SESSION['id'])) {
                                         <form class="form-horizontal" action="profile_save.php" method="POST" id="userCreateFrm" enctype="multipart/form-data">
                                             <input type="hidden" name="user_edit" value="1">
                                             <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
-                                            <input type="hidden" name="color" id="color" value="">
+                                            <input type="hidden" name="color" id="color" value="<?php echo $User['color']; ?>">
                                             <div class="">
                                                 <div class="form-group">
                                                     <label for="title" class="col-sm-4 control-label">Title</label>
@@ -137,7 +137,7 @@ if (!isset($_SESSION['id'])) {
                                                 <div class="form-group">
                                                     <label for="department" class="col-sm-4 control-label">Password</label>
                                                     <div class="col-sm-8">
-                                                        <button type="button" class="btn btn-default">
+                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changePassword">
                                                             Change Password
                                                         </button><br>
                                                         <small>You can change your password here.</small>
@@ -170,7 +170,7 @@ if (!isset($_SESSION['id'])) {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Cropper</h5>
+                    <h5 class="modal-title" id="modalLabel">Crop Profile Image</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -185,7 +185,40 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="setImage" class="btn btn-success">Set as Cover Image</button>
+                    <button type="button" id="setImage" class="btn btn-success">Set as Profile Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changePassword" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="reservationModalTitle"><b>Change Password</b></h4>
+                </div>
+                <div>
+                    <form action="reset_actions.php" method="POST">
+                        <div class="form-group has-feedback">
+                            <input type="hidden" name="profile-password-reset" value="1">
+                            <input type="password" class="form-control" name="password1" placeholder="New Password" autofocus required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Password must contain at least 6 characters, including UPPER/lowercase and numbers">
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" class="form-control" name="password2" placeholder="Repeat New Password" autofocus required>
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat" id="resetPassword" name="login"><i class="fa fa-sign-in"></i>
+                                    Reset Password
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -245,7 +278,7 @@ if (!isset($_SESSION['id'])) {
             var lid = input.getAttribute('data-uid');
             var reader = new FileReader();
             reader.onload = function(e) {
-                $('#image').attr('src', e.target.result).width('100%').height('100%');
+                $('#image').attr('src', e.target.result).width('100%').height('50%');
             };
 
             reader.readAsDataURL(input.files[0]);

@@ -16,9 +16,9 @@
     var disableTimesEnd = <?php echo $disableTimesEnd; ?>;
     var selectedMinites = <?php echo $selectedMinites; ?>;
     var stopEndTimes = <?php echo $stopEndTimes; ?>;
+    var selectedEndMinites = <?php echo $selectedEndMinites; ?>;
 
-    console.log(endStart);
-    console.log(stopEndTimes);
+    console.log(selectedEndMinites);
 
     var $end_time_picker = $('.end_time').pickatime({
         editable: false,
@@ -39,4 +39,7 @@
     });
 
     var end_time_picker = $end_time_picker.pickatime('picker');
+    if (selectedEndMinites) {
+        end_time_picker.set('select', selectedEndMinites);
+    }
 </script>

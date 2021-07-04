@@ -12,8 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 if (isset($_POST['loadSchedule'])) {
 
     $Data = [];
-    $days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
+    //$days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
     $DateNames = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    $START_DATE = date("Y-m-d", strtotime('today'));
+    $END_DATE = date("Y-m-d", strtotime("+7 day", strtotime($START_DATE)));
+
+    if (isset($_SESSION['selectedStart']) and $_SESSION['selectedEnd']) {
+        $START_DATE = date("Y-m-d", strtotime($_SESSION['selectedStart']));
+        $END_DATE = date("Y-m-d", strtotime($_SESSION['selectedEnd']));
+    }
+
+    $days = createDateRangeArray($START_DATE, $END_DATE);
 
     foreach ($days as $key => $day) {
         $reservations = [];
@@ -47,23 +57,35 @@ if (isset($_POST['loadSchedule'])) {
                     "headding" => $ress['title'],
                     "lecturer" => $ress['utitle'] . ' ' . $ress['firstname'] . ' ' . $ress['secondname'],
                     "image" => $lecturerImage,
-                    "dateRange" =>  date("h:i A", strtotime($ress['start_time'])) . ' - ' .  date("h:i A", strtotime($ress['end_time']))
+                    "dateRange" =>  date("h:i A", strtotime($ress['start_time'])) . ' - ' .  date("h:i A", strtotime($ress['end_time'])),
+                    "date" =>  date("Y-m-d", strtotime($day)),
                 )
             ];
         }
 
         $Data[$key]['title'] = $date;
-        $Data[$key]['subtitle'] = "<input type='hidden' class='raw_date' value='$dateRaw'> $DateName <br><br><button class='btn btn-success btn-sm add-reservation'> <i class='fa fa-edit'></i> Make Reservation</button>";
+        $Data[$key]['subtitle'] = "<input type='hidden' class='raw_date' value='$dateRaw'> $DateName <br><button class='btn btn-success btn-sm add-reservation'> <i class='fa fa-edit'></i> Make Reservation</button>";
         $Data[$key]['schedule'] = $reservations;
     }
 
     $disabled = json_encode($disableTimes);
     $Data['remove'] = 1;
+    $Data['start'] = date("d/m/Y", strtotime($START_DATE));;
+    $Data['end'] = date("d/m/Y", strtotime($END_DATE));;
     echo json_encode($Data);
     exit();
 }
 
+// Set time range SESSION
+if (isset($_POST['dateRengeSessonSet'])) {
+    if (isset($_POST['selectedStart']) and $_POST['selectedEnd']) {
+        $_SESSION['selectedStart'] = $_POST['selectedStart'];
+        $_SESSION['selectedEnd'] = $_POST['selectedEnd'];
+    }
 
+    echo 1;
+    exit();
+}
 
 // Reservation Modal Deta
 if (isset($_POST['addReservationModal'])) {
@@ -72,12 +94,12 @@ if (isset($_POST['addReservationModal'])) {
 
     $selectedDate = date("Y-m-d", strtotime($resDay));
 
-    $days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
+    //$days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
     $TmpArray = [];
     $disableTimesTmpA = [];
     $disableTimesTmpB = [];
 
-    foreach ($days as $key => $day) {
+    //foreach ($days as $key => $day) {
 
         $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ORDER BY start_time";
         $result2 = mysqli_query($conn, $query2);
@@ -98,7 +120,7 @@ if (isset($_POST['addReservationModal'])) {
             ];
             $loop++;
         }
-    }
+    //}
 
     foreach ($TmpArray as $time) {
         $disableTimesTmpA[] = $time;
@@ -121,39 +143,26 @@ if (isset($_POST['addReservationModal'])) {
 }
 
 
-
-
-// Generate End Time 
-if (isset($_POST['getEndTime'])) {
-    $inputTime = $_POST['inputTime'];
+// Reservation Edit Modal Data
+if (isset($_POST['editReservationModal'])) {
+    $scheduleId = $_POST['scheduleId'];
     $resDay = $_POST['resDay'];
 
-    $days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
+    $scheduleQuery = "SELECT * FROM user_resource_map WHERE id=$scheduleId LIMIT 1";
+    $scheduleQueryResult = mysqli_query($conn, $scheduleQuery);
+    $UserSchedule = mysqli_fetch_array($scheduleQueryResult);
+
     $selectedDate = date("Y-m-d", strtotime($resDay));
-    $selectedDateH = date("H", strtotime($inputTime));
-    $selectedDateI = date("i", strtotime($inputTime));
-    $selectedTimeHI = date("H:i", strtotime($inputTime));
-    $selectedMinites = hourMinute2Minutes($selectedTimeHI);
+    $selectedStartMinites = hourMinute2Minutes(date("H:i", strtotime($UserSchedule['start_time'])));
 
+    //$days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
+    $TmpArray = [];
     $disableTimesTmpA = [];
+    $disableTimesTmpB = [];
 
+    //foreach ($days as $key => $day) {
 
-    if ($selectedDateI == 00) {
-        $startArray = [
-            (int)$selectedDateH,
-            30
-        ];
-    } else {
-        $startArray = [
-            (int)$selectedDateH + 1,
-            (int)$selectedDateI - 30
-        ];
-    }
-
-
-    foreach ($days as $key => $day) {
-
-        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ORDER BY start_time";
+        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id != $scheduleId ORDER BY start_time";
         $result2 = mysqli_query($conn, $query2);
         $loop = 1;
         while ($ress = mysqli_fetch_array($result2)) {
@@ -172,7 +181,99 @@ if (isset($_POST['getEndTime'])) {
             ];
             $loop++;
         }
+    //}
+
+    foreach ($TmpArray as $time) {
+        $disableTimesTmpA[] = $time;
     }
+
+    if ($TmpArray) {
+        $TmpArray[] = [
+            "from" => [$TmpArray[1]['from'][0], 3],
+            "to" => $TmpArray[1]['from']
+        ];
+    }
+
+    foreach ($TmpArray as $time) {
+        $disableTimesTmpB[] = $time;
+    }
+
+    $disableTimesStart = json_encode($disableTimesTmpB);
+    include 'reservation_edit_modal.php';
+    exit();
+}
+
+// Edit Reservation 
+
+if (isset($_POST['edit_reservation'])) {
+}
+
+// Generate End Time 
+if (isset($_POST['getEndTime'])) {
+    $inputTime = $_POST['inputTime'];
+    $resDay = $_POST['resDay'];
+    $scheduleId = 0;
+    $UserSchedule = 0;
+    $selectedEndMinites = 0;
+
+    if (isset($_POST['scheduleId'])) {
+        $scheduleId = $_POST['scheduleId'];
+        $scheduleQuery = "SELECT * FROM user_resource_map WHERE id=$scheduleId LIMIT 1";
+        $scheduleQueryResult = mysqli_query($conn, $scheduleQuery);
+        $UserSchedule = mysqli_fetch_array($scheduleQueryResult);
+    }
+
+    //$days = [0 => "today", 1 => "+1 day", 2 => "+2 day", 3 => "+3 day", 4 => "+4 day", 5 => "+5 day", 6 => "+6 day"];
+    $selectedDate = date("Y-m-d", strtotime($resDay));
+    $selectedDateH = date("H", strtotime($inputTime));
+    $selectedDateI = date("i", strtotime($inputTime));
+    $selectedTimeHI = date("H:i", strtotime($inputTime));
+    $selectedMinites = hourMinute2Minutes($selectedTimeHI);
+
+    if ($scheduleId) {
+        $selectedEndMinites = hourMinute2Minutes(date("H:i", strtotime($UserSchedule['end_time'])));
+    }
+
+    $disableTimesTmpA = [];
+
+    if ($selectedDateI == 00) {
+        $startArray = [
+            (int)$selectedDateH,
+            30
+        ];
+    } else {
+        $startArray = [
+            (int)$selectedDateH + 1,
+            (int)$selectedDateI - 30
+        ];
+    }
+
+    //foreach ($days as $key => $day) {
+
+    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ORDER BY start_time";
+    if ($scheduleId) {
+        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id!=$scheduleId ORDER BY start_time";
+    }
+
+    $result2 = mysqli_query($conn, $query2);
+    $loop = 1;
+    while ($ress = mysqli_fetch_array($result2)) {
+        $startDate = date("H:i", strtotime($ress['start_time']));
+        $endDate = date("H:i", strtotime($ress['end_time']));
+
+        $TmpArray[$loop] = [
+            "from" => [
+                (int) date("H", strtotime($ress['start_time'])),
+                (int) date("i", strtotime($ress['start_time'])),
+            ],
+            "to" => [
+                (int) date("H", strtotime($ress['end_time'])),
+                (int) date("i", strtotime($ress['end_time'])),
+            ]
+        ];
+        $loop++;
+    }
+    //}
 
     $stopEndTime =  [18, 0];
     $stopTime = date("Y-m-d H:i", strtotime($selectedDate . ' ' . $selectedTimeHI));
@@ -182,10 +283,9 @@ if (isset($_POST['getEndTime'])) {
 
     if ($stopTimesTmpArray) {
         if ($selectedDateI == 00) {
-
             $stopEndTime = [
                 (int) date("H", strtotime($stopTimesTmpArray['start_time'])) - 1,
-                30
+                (int) date("i", strtotime($stopTimesTmpArray['start_time'])) + 30,
             ];
         } else {
             $stopEndTime = [
@@ -221,6 +321,33 @@ function hourMinute2Minutes($strHourMinute)
 }
 
 
+// Get dates in Date Range
+
+function createDateRangeArray($strDateFrom, $strDateTo)
+{
+    // takes two dates formatted as YYYY-MM-DD and creates an
+    // inclusive array of the dates between the from and to dates.
+
+    // could test validity of dates here but I'm already doing
+    // that in the main script
+
+    $aryRange = [];
+
+    $iDateFrom = mktime(1, 0, 0, substr($strDateFrom, 5, 2), substr($strDateFrom, 8, 2), substr($strDateFrom, 0, 4));
+    $iDateTo = mktime(1, 0, 0, substr($strDateTo, 5, 2), substr($strDateTo, 8, 2), substr($strDateTo, 0, 4));
+
+    if ($iDateTo >= $iDateFrom) {
+        array_push($aryRange, date('Y-m-d', $iDateFrom)); // first entry
+        while ($iDateFrom < $iDateTo) {
+            $iDateFrom += 86400; // add 24 hours
+            array_push($aryRange, date('Y-m-d', $iDateFrom));
+        }
+    }
+
+    return $aryRange;
+}
+
+
 // Make Reservation
 
 if (isset($_POST['make_reservation'])) {
@@ -251,6 +378,44 @@ if (isset($_POST['make_reservation'])) {
     } else {
         echo "Error" . $sql . $conn->error;
     }
+    echo $status;
+    exit();
+}
+
+
+// Edit Reservation
+
+if (isset($_POST['edit_reservation'])) {
+
+    $reservation_id = $_POST['reservation_id'];
+    $form_resource = $_POST['form_resource'];
+    $reservation_title = $_POST['reservation_title'];
+    $reservation_description = $_POST['reservation_description'];
+    $form_reservation_date = $_POST['form_reservation_date'];
+    $start_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['start_time']));
+    $end_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['end_time']));
+
+    if (!isset($_POST['start_time']) or !$_POST['start_time']) {
+        echo 5;
+        exit();
+    }
+
+    if (!isset($_POST['end_time']) or !$_POST['end_time']) {
+        echo 4;
+        exit();
+    }
+
+    // $sql = "INSERT INTO user_resource_map (user_id, resource_id, title, description, start_time, end_time, status) 
+    // VALUES($user_id, $resource_id, '$reservation_title', '$reservation_description', '$start_time','$end_time',1)";
+
+    $sql = "UPDATE user_resource_map SET title = '$reservation_title', description = '$reservation_description', start_time = '$start_time', end_time = '$end_time' WHERE id =$reservation_id";
+
+    if ($conn->query($sql) == TRUE) {
+        $status = 1;
+    } else {
+        echo "Error" . $sql . $conn->error;
+    }
+
     echo $status;
     exit();
 }

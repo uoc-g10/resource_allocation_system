@@ -1,5 +1,6 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="../public/js/duDatepicker.min.js"></script>
 <script src="../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -11,6 +12,15 @@
 <script src="../public/js/popModal.js"></script>
 <script src="../public/js/jnoty.min.js"></script>
 <script src="../public/js/colorPick.js"></script>
+<script src="../public/js/fullCalender.js"></script>
+<script src="../public/js/jquery.timeline.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@banminkyoz/lightpick@1.2.12/lightpick.min.js"></script>
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
 <script src="../public/js/script.js"></script>
 
 <!-- <script src="../public/js/index.min.js"></script> -->

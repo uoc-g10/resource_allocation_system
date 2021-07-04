@@ -1,5 +1,6 @@
 <?php
-$htmlBody = '
+
+$emailBody = '
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,33 +26,32 @@ $htmlBody = '
                     </tr> -->
                     <tr>
                         <td colspan="2">
-                            <img src="../public/images/user-registerd.png" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
+                            <img src="../public/images/passwod-reset.png" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;" colspan="2">
                             <br>
-                            <!-- <h1 style="margin: 0px;padding-bottom: 25px; text-transform: uppercase;">Mr. Navod Thilakarathna</h1> -->
-                            <h1 style="margin: 0px;padding-bottom: 25px;font-size:22px;"> Your account was successfully created</h1>
+                            <h1 style="margin: 0px;padding-bottom: 25px;font-size:22px;"> Reset Your Password </h1>
                             <p style=" margin: 0px 40px;padding-bottom: 25px;line-height: 2; font-size: 15px;">
-                                <b> ' . $lecturerFullName . ', </b><br>
-                                You have been successfully admitted to the Lecture Hall Allocation system of the University of Colombo. Now you can do the Lecture Hall Allocation as you see fit. Below are your account details. This will allow you to log in to the system.
-
+                                We\'ve recieved a request to reset the password for the Smart Allocation System accout associated with ' . $email . '
+                                You can reset your password by clicking the link blow.
                             </p>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: right; padding:15px"><b> Login Email </b></td>
-                        <td style="padding:15px"> ' . $email . ' </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right; padding:15px"><b> Login Password </b></td>
-                        <td style="padding:15px"> ' . $password_raw . ' </td>
-                    </tr>
-                    <tr>
                         <td colspan="2">
-                            <a href="' . $systemUrl . '" style="background-color:#36b445; color:white; padding:15px 62px; outline: none; display: block; margin: auto; border-radius: 31px;
-                                font-weight: bold; margin-top: 25px; margin-bottom: 25px; border: none; text-transform:uppercase; width: 129px; text-align: center;">Open System</a>
+                            <a href="' . $returnLink . '" style="background-color:#36b445; color:white; padding:15px 62px; outline: none; display: block; margin: auto; border-radius: 31px;
+                                font-weight: bold; text-decoration: none; margin-top: 25px; margin-bottom: 25px; border: none; text-transform:uppercase; width: 170px; text-align: center;">
+                                Reset Password
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; padding:15px" colspan="2">
+                            <b>
+                                if you did not request a new password, Please let us know immediately.<br> Thank you.
+                            </b>
                         </td>
                     </tr>
                     <tr>
@@ -74,4 +74,4 @@ $htmlBody = '
 
 </html>';
 
-return $htmlBody;
+return $emailBody;

@@ -28,7 +28,7 @@
         </li>
         <li class="">
           <a href="../reservation_module/my_reservations.php">
-            <i class="fa fa-calendar-o "></i> <span>My Reservations <?php echo $loginUserRole; ?> </span>
+            <i class="fa fa-calendar-o "></i> <span>My Reservations </span>
           </a>
         </li>
 
