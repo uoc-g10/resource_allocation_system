@@ -217,22 +217,23 @@ $result_3 = mysqli_query($conn, $query3);
                     <h4 class="modal-title"><b>Edit User Details</b></h4>
                 </div>
                 <form class="form-horizontal" method="POST" id="editUserFrm" enctype="multipart/form-data">
+                    <input type="hidden" name="edit_lecturer_details" value="1">
+                    <input type="hidden" name="edit_lecturer_id" id="edit_lecturer_id" value="1">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title</label>
                             <div class="col-sm-9">
                                 <select name="title" class="form-control" id="title_edit" required>
                                     <option value="Mr."> Mr. </option>
-                                    <option value="Mr."> Mrs. </option>
-                                    <option value="Mr."> Miss. </option>
-                                    <option value="Mr."> Dr. </option>
-                                    <option value="Mr."> Rev. </option>
+                                    <option value="Mrs."> Mrs. </option>
+                                    <option value="Miss."> Miss. </option>
+                                    <option value="Dr."> Dr. </option>
+                                    <option value="Rev."> Rev. </option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="firstname_edit" class="col-sm-3 control-label">First Name</label>
-
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="firstname_edit" name="firstname" placeholder="First Name" required>
                             </div>
@@ -343,7 +344,8 @@ $result_3 = mysqli_query($conn, $query3);
     // Edit User Details
     $(document).on('click', '.edit-user', function() {
         var uid = $(this).attr('user-id');
-        $.post('users_fetch.php', {
+        $('#edit_lecturer_id').val(uid);
+        $.post('lecturers_fetch.php', {
             user_edit: 1,
             user_id: uid
         }, function(data) {
@@ -354,22 +356,14 @@ $result_3 = mysqli_query($conn, $query3);
             $('#secondname_edit').val(userData.secondname);
             $('#mobile_edit').val(userData.mobile);
             $('#role_edit').val(userData.role);
+            $('#faculty_edit').val(userData.faculty_id);
+            updateFaculties(userData.faculty_id);
             $('#department_edit').val(userData.department);
             $('#email_edit').val(userData.email);
             $("#editUserModal").modal('show');
-            updateFaculties(fid);
+
         });
     });
-
-    // $(document).on('click', '.edit-user', function() {
-    //     var uid = $(this).attr('user-id');
-    //     $.post('users_fetch.php', {
-    //         user_edit: 1,
-    //         user_id: uid
-    //     }, function(data) {
-
-    //     });
-    // });
 
     // Change departments when faculty change
     $("#faculty, #faculty_edit").on('change', function() {
@@ -382,14 +376,16 @@ $result_3 = mysqli_query($conn, $query3);
 
     // Change departments Function
     function updateFaculties(fid) {
-        $('#department option').remove();
-        for (i = 0; i < array[fid].length; i++) {
-            var id = array[fid][i]['id'];
-            var name = array[fid][i]['name'];
-            var option = $('<option>');
-            option.attr('value', id);
-            option.append(name);
-            $('#department').append(option);
+        $('#department option, #department_edit option').remove();
+        if (fid) {
+            for (i = 0; i < array[fid].length; i++) {
+                var id = array[fid][i]['id'];
+                var name = array[fid][i]['name'];
+                var option = $('<option>');
+                option.attr('value', id);
+                option.append(name);
+                $('#department, #department_edit').append(option);
+            }
         }
     }
 
@@ -403,18 +399,27 @@ $result_3 = mysqli_query($conn, $query3);
                 if (response == 1) {
                     document.getElementById('lecturerCreateFrm').reset();
                     $("#addUser").modal('hide');
-                    //dataTable.ajax.reload();
-                    // showMessage('success', 'New User has been created successfully')
+                    dataTable.ajax.reload();
+                    showMessage('success', 'New User has been created successfully')
                 } else {
                     var responseArray = JSON.parse(response);
-                    console.log(responseArray);
                     $('#' + responseArray[0]['id']).addClass('border-red');
                     $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
                 }
-                // document.getElementById('lecturerCreateFrm').reset();
-                // $("#addUser").modal('hide');
-                // dataTable.ajax.reload();
-                // showMessage('success', 'New User has been created successfully')
+            }
+        });
+    });
+
+    $("#editUserFrm").on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'lecturers_fetch.php',
+            data: $('#editUserFrm').serialize(),
+            success: function(response) {
+                $("#editUserModal").modal('hide');
+                dataTable.ajax.reload();
+                showMessage('success', 'User has been Updated successfully')
             }
         });
     });
@@ -423,6 +428,38 @@ $result_3 = mysqli_query($conn, $query3);
     $('input').on('input', function() {
         $(this).removeClass('border-red');
         $(this).parent().find('span').remove();
+    });
+
+    // Remove Lecturer Details
+    $(document).on('click', '.delete-user', function() {
+        var id = $(this).attr("user-id");
+
+        Swal.fire({
+            title: 'Are you sure you want to remove this Lecturer?',
+            text: "All relatd data will be removed from system, You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Remove'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "lecturers_fetch.php",
+                    method: "POST",
+                    data: {
+                        id: id,
+                        lecturerRemove: 1
+                    },
+                    success: function(data) {
+                        if (data == '1') {
+                            showMessage('success', 'Faculty has been removed successfully')
+                            dataTable.ajax.reload();
+                        }
+                    }
+                });
+            }
+        });
     });
 
     // Show any message

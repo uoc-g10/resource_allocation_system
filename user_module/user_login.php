@@ -66,6 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 // Password is correct, so start a new session
                                 session_start();
 
+                                // Update Last Login Time
+                                $query = "UPDATE users SET last_login=NOW() WHERE id =$id";
+                                mysqli_query($conn, $query);
+
                                 // Store data in session variables
                                 $_SESSION["loggedin"] = true;
                                 $_SESSION["id"] = $id;
@@ -102,5 +106,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     echo $login_err;
-
 }

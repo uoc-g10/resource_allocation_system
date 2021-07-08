@@ -3,9 +3,14 @@ include '../common/header.php';
 require '../includes/conn.php';
 
 
+
 $LoginUser = $User['id'];
 $Today = date("Y-m-d");
-$schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.user_id=$LoginUser AND urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";
+if ($User['role'] == 'ROLE_ADMIN') {
+    $schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";
+} else {
+    $schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.user_id=$LoginUser AND urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";
+}
 
 $scheduleQueryResults = mysqli_query($conn, $schedulesQuery);
 $UserSehedules = [];
@@ -16,7 +21,7 @@ foreach ($scheduleQueryResults as $schedule) {
     $tmpArray['time'] = $time;
     $tmpArray['color'] = '#00ff00';
     $tmpArray['css'] = 'success';
-    $tmpArray['content'] = "<div> <div class='res-title'>" . $schedule['title'] . "</div> <div class='res-description'> " . $schedule['description'] . " </div> <div class='res-hall'> " . $schedule['hall'] . " </div> </div>";
+    $tmpArray['content'] = "<div> <div class='res-title'>" . $schedule['title'] . "</div> <div class='res-description'> " . $schedule['description'] . " </div> <div class='res-time'>" . date("h:i A", strtotime($schedule['start_time'])) . " - " . date("h:i A", strtotime($schedule['end_time'])) . " </div> <div class='res-hall'> " . $schedule['hall'] . " </div> </div>";
 
     $UserSehedules[] = $tmpArray;
 }
@@ -131,7 +136,12 @@ $UserSehedulesJson = json_encode($UserSehedules);
         .res-description {
             border-bottom: 1px solid #dee5e7;
             padding-bottom: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .res-time {
+            padding-bottom: 5px;
+            font-weight: 600;
         }
 
         #element,

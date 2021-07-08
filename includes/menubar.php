@@ -18,12 +18,12 @@
         <li class="header">Dashboard</li>
         <li class="">
           <a href="../user_dashboard_module/user_dashboard.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-bar-chart"></i> <span>Dashboard</span>
           </a>
         </li>
         <li class="">
           <a href="../reservation_module/create_reservation.php">
-            <i class="fa fa-pencil"></i> <span>Make a Reservations</span>
+            <i class="fa fa-edit"></i> <span>Make a Reservations</span>
           </a>
         </li>
         <li class="">
@@ -35,18 +35,19 @@
         <?php if ($loginUserRole == "Admin") { ?>
           <li class="header">ADMIN</li>
           <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li>
-          <li><a href="../resource_module/resources.php"><i class="fa fa-files-o"></i> <span> Manage Resources </span></a></li>
-          <li><a href="../resource_module/departments.php"><i class="fa fa-files-o"></i> <span> Manage Departments </span></a></li>
-          <li><a href="../resource_module/faculties.php"><i class="fa fa-files-o"></i> <span> Manage Faculties </span></a></li>
-          <li><a href="../user_module/lecturers.php"><i class="fa fa-user"></i> <span> Lecturers </span></a></li>
+          <li><a href="../resource_module/resources.php"><i class="fa fa-university"></i> <span> Manage Resources </span></a></li>
+          <li><a href="../resource_module/departments.php"><i class="fa fa-university"></i> <span> Manage Departments </span></a></li>
+          <li><a href="../resource_module/faculties.php"><i class="fa fa-university"></i> <span> Manage Faculties </span></a></li>
+          <li><a href="../user_module/lecturers.php"><i class="fa fa-users"></i> <span> Lecturers </span></a></li>
           <li><a href="../user_module/users.php"><i class="fa fa-user"></i> <span> Manage Users </span></a></li>
         <?php } ?>
         <?php if ($loginUserRole != "Lecturer") { ?>
           <li class="header">REPORT</li>
-          <li><a href="../report_module/reports.php"><i class="fa fa-calendar"></i> <span> Reports </span></a></li>
+          <li><a href="../report_module/reports.php"><i class="fa fa-area-chart"></i> <span> Report By Lecturer </span></a></li>
+          <li><a href="../report_module/reports.php"><i class="fa fa-area-chart"></i> <span> Report By Resouce </span></a></li>
         <?php } ?>
         <li class="header">MY PROFILE</li>
-        <li><a href="../user_module/profile.php"><i class="fa fa-info-circle"></i> <span> My Profile </span></a></li>
+        <li><a href="../user_module/profile.php"><i class="fa fa-user-circle"></i> <span> My Profile </span></a></li>
       </ul>
     </div>
   </section>
