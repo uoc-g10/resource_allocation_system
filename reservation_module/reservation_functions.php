@@ -70,8 +70,8 @@ if (isset($_POST['loadSchedule'])) {
 
     $disabled = json_encode($disableTimes);
     $Data['remove'] = 1;
-    $Data['start'] = date("d/m/Y", strtotime($START_DATE));;
-    $Data['end'] = date("d/m/Y", strtotime($END_DATE));;
+    $Data['start'] = date("d/m/Y", strtotime($START_DATE));
+    $Data['end'] = date("d/m/Y", strtotime($END_DATE));
     echo json_encode($Data);
     exit();
 }

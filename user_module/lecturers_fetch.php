@@ -152,7 +152,8 @@ if (isset($_POST['load_table']) and $_POST['load_table']) {
         $sub_array[] = '<div class=" text-center" data-column="department">' . $row["did"] . '</div>';
         $sub_array[] = '<div class=" text-center" data-column="last_login">' . $last_login . '</div>';
 
-        $sub_array[] = "<div class='text-right'> <button class='btn btn-default btn-sm btn-flat edit-user' user-id='" . $row["id"] . "'><i class='fa fa-edit'></i> Edit</button>
+        $sub_array[] = "<div class='text-right'> <button class='btn btn-default btn-sm btn-flat lecture-report' user-id='" . $row["id"] . "'><i class='fa fa-bar-chart'></i> Report</button>
+                    <button class='btn btn-default btn-sm btn-flat edit-user' user-id='" . $row["id"] . "'><i class='fa fa-edit'></i> Edit</button>
                     <button class='btn btn-danger btn-sm btn-flat delete-user' user-id='" . $row["id"] . "'><i class='fa fa-trash'></i> Delete</button></div>";
 
         $data[] = $sub_array;

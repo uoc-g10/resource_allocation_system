@@ -43,8 +43,8 @@
         <?php } ?>
         <?php if ($loginUserRole != "Lecturer") { ?>
           <li class="header">REPORT</li>
-          <li><a href="../report_module/reports.php"><i class="fa fa-area-chart"></i> <span> Report By Lecturer </span></a></li>
-          <li><a href="../report_module/reports.php"><i class="fa fa-area-chart"></i> <span> Report By Resouce </span></a></li>
+          <li><a href="../report_module/lecturer-report.php"><i class="fa fa-area-chart"></i> <span> Overall Report </span></a></li>
+          <!-- <li><a href="../report_module/resource-report.php"><i class="fa fa-area-chart"></i> <span> Report By Resouce </span></a></li> -->
         <?php } ?>
         <li class="header">MY PROFILE</li>
         <li><a href="../user_module/profile.php"><i class="fa fa-user-circle"></i> <span> My Profile </span></a></li>

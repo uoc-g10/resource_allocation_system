@@ -61,7 +61,7 @@ include '../common/header.php';
                                         <div class="col-md-12">
                                             <label class="reservation-titles" id="test123"> Date Range </label>
                                             <!-- <input type="date" name="dates" class="form-control"> -->
-                                            <input type="text" id="datepicker123" class="form-control" value="26/06/2021 - 03/07/2021">
+                                            <input type="text" id="datepicker123" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-4">

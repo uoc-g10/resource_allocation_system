@@ -34,7 +34,7 @@ $result_3 = mysqli_query($conn, $query3);
     <div class="content-wrapper">
         <section class="content-header">
             <div class="col-xs-12">
-                <h1> Lecturers </h1>
+                <h1> Report By Resource </h1>
 
                 <ol class="breadcrumb">
                     <li>
@@ -61,7 +61,7 @@ $result_3 = mysqli_query($conn, $query3);
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="row">
-                                                    <a href="#addnew" data-toggle="modal" data-target="#addUser" class="btn btn-success btn-sm btn-flat"><i class="fa fa-plus"></i> Add New Lecturer</a>
+                                                    <input type="text" class="form-control">
                                                 </div>
                                             </div>
 
@@ -313,171 +313,7 @@ $result_3 = mysqli_query($conn, $query3);
 <?php include '../includes/footer.php'; ?>
 </div>
 <script>
-    // json array of faculties and departments
-    var array = <?php echo json_encode($departments); ?>
 
-    console.log(array);
-
-    // Init Users Datatable
-    var dataTable = $('#user_data').DataTable({
-        "processing": true,
-        "dom": "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        "serverSide": true,
-        "order": [],
-        "ajax": {
-            url: "lecturers_fetch.php",
-            type: "POST",
-            data: {
-                "load_table": 1
-            }
-        },
-        oLanguage: {
-            sLengthMenu: "_MENU_",
-        }
-    });
-
-    // Search DataTable on Custom Input Field
-    $('#customSearch').keyup(function() {
-        dataTable.search($(this).val()).draw();
-    })
-
-    // Edit User Details
-    $(document).on('click', '.edit-user', function() {
-        var uid = $(this).attr('user-id');
-        $('#edit_lecturer_id').val(uid);
-        $.post('lecturers_fetch.php', {
-            user_edit: 1,
-            user_id: uid
-        }, function(data) {
-            var userData = JSON.parse(data);
-            console.log(userData.firstname);
-            $('#title_edit').val(userData.title);
-            $('#firstname_edit').val(userData.firstname);
-            $('#secondname_edit').val(userData.secondname);
-            $('#mobile_edit').val(userData.mobile);
-            $('#role_edit').val(userData.role);
-            $('#faculty_edit').val(userData.faculty_id);
-            updateFaculties(userData.faculty_id);
-            $('#department_edit').val(userData.department);
-            $('#email_edit').val(userData.email);
-            $("#editUserModal").modal('show');
-
-        });
-    });
-
-    // Change departments when faculty change
-    $("#faculty, #faculty_edit").on('change', function() {
-        var fid = $(this).val();
-        updateFaculties(fid);
-    });
-
-    // On first Time update departments
-    updateFaculties($("#faculty").val());
-
-    // Change departments Function
-    function updateFaculties(fid) {
-        $('#department option, #department_edit option').remove();
-        if (fid) {
-            for (i = 0; i < array[fid].length; i++) {
-                var id = array[fid][i]['id'];
-                var name = array[fid][i]['name'];
-                var option = $('<option>');
-                option.attr('value', id);
-                option.append(name);
-                $('#department, #department_edit').append(option);
-            }
-        }
-    }
-
-    $("#lecturerCreateFrm").on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'lecturers_fetch.php',
-            data: $('#lecturerCreateFrm').serialize(),
-            success: function(response) {
-                if (response == 1) {
-                    document.getElementById('lecturerCreateFrm').reset();
-                    $("#addUser").modal('hide');
-                    dataTable.ajax.reload();
-                    showMessage('success', 'New User has been created successfully')
-                } else {
-                    var responseArray = JSON.parse(response);
-                    $('#' + responseArray[0]['id']).addClass('border-red');
-                    $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
-                }
-            }
-        });
-    });
-
-    $("#editUserFrm").on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'lecturers_fetch.php',
-            data: $('#editUserFrm').serialize(),
-            success: function(response) {
-                $("#editUserModal").modal('hide');
-                dataTable.ajax.reload();
-                showMessage('success', 'User has been Updated successfully')
-            }
-        });
-    });
-
-    // Remove error classes when updating fields
-    $('input').on('input', function() {
-        $(this).removeClass('border-red');
-        $(this).parent().find('span').remove();
-    });
-
-    // Remove Lecturer Details
-    $(document).on('click', '.delete-user', function() {
-        var id = $(this).attr("user-id");
-
-        Swal.fire({
-            title: 'Are you sure you want to remove this Lecturer?',
-            text: "All relatd data will be removed from system, You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Remove'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "lecturers_fetch.php",
-                    method: "POST",
-                    data: {
-                        id: id,
-                        lecturerRemove: 1
-                    },
-                    success: function(data) {
-                        if (data == '1') {
-                            showMessage('success', 'Faculty has been removed successfully')
-                            dataTable.ajax.reload();
-                        }
-                    }
-                });
-            }
-        });
-    });
-
-    // Remove Lecturer Details
-    $(document).on('click', '.lecture-report', function() {
-        var id = $(this).attr("user-id");
-        setCookie('lecture-report-data', id, 1);
-        window.location.href = '../report_module/lecture-single-report.php';
-    });
-
-    // Show any message
-    function showMessage(type, description) {
-        Swal.fire({
-            icon: type,
-            title: description,
-            showConfirmButton: false,
-            timer: 1200
-        })
-    }
 </script>
 
 </html>
