@@ -25,7 +25,7 @@ $htmlBody = '
                     </tr> -->
                     <tr>
                         <td colspan="2">
-                            <img src="../public/images/user-registerd.png" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
+                            <img src="' . $registerImage . '" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
                         </td>
                     </tr>
                     <tr>

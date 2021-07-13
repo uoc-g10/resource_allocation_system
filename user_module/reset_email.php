@@ -26,7 +26,7 @@ $emailBody = '
                     </tr> -->
                     <tr>
                         <td colspan="2">
-                            <img src="../public/images/passwod-reset.png" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
+                            <img src="' . $resetImage . '" height="200px" style="display:block; margin:auto;padding-bottom: 25px; ">
                         </td>
                     </tr>
                     <tr>

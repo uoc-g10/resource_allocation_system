@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['password-reset'])) {
 
+        $resetImage = $_SERVER['HTTP_ORIGIN'] . '/public/images/passwod-reset.png';
         $email = $_POST['email'];
         $token = bin2hex(random_bytes(50));
 

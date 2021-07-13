@@ -22,6 +22,7 @@ if (isset($_POST['create_lecturer']) and $_POST['create_lecturer']) {
 
     $lecturerFullName = $title . ' ' . $firstname . ' ' . $secondname;
     $systemUrl = $_SERVER['HTTP_ORIGIN'];
+    $registerImage = $_SERVER['HTTP_ORIGIN'].'/public/images/user-registerd.png';
 
     $checkUserQuery = "SELECT count(id) as cc FROM users WHERE email='$email' LIMIT 1";
     $checkUserResult = mysqli_query($conn, $checkUserQuery);
