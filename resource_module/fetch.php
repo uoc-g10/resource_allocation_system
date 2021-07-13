@@ -8,7 +8,7 @@ if (isset($_GET['s']) and $_GET['s'] == 'departments') {
     $query = "SELECT d.id, d.name, f.name as fname, f.id as fid FROM departments as d INNER JOIN faculties as f ON d.faculty=f.id ";
 
     if (isset($_POST["search"]["value"])) {
-        $query .= 'WHERE d.id LIKE "%' . $_POST["search"]["value"] . '%" OR d.name LIKE "%' . $_POST["search"]["value"] . '%"';
+        $query .= 'WHERE d.id LIKE "%' . $_POST["search"]["value"] . '%" OR d.name LIKE "%' . $_POST["search"]["value"] . '%" OR f.name LIKE "%' . $_POST["search"]["value"] . '%"';
     }
 
     if (isset($_POST["order"])) {
@@ -36,7 +36,8 @@ if (isset($_GET['s']) and $_GET['s'] == 'departments') {
         $data[] = $sub_array;
     }
 
-    function get_all_data($conn){
+    function get_all_data($conn)
+    {
         $query = "SELECT * FROM departments";
         $result = mysqli_query($conn, $query);
         return mysqli_num_rows($result);

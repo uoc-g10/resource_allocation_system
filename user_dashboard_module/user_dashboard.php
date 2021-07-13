@@ -260,13 +260,16 @@ $UserSehedulesJson = json_encode($UserSehedules);
         var time = d.getHours();
         var msg = '';
         if (time < 12) {
-            msg = "Good morning!";
+            msg = "Good Morning!";
         }
         if (time > 12) {
-            msg = "<b>Good afternoon!</b>";
+            msg = "<b>Good Afternoon!</b>";
         }
         if (time == 12) {
-            msg = "<b>Go eat lunch!</b>";
+            msg = "<b>Good Afternoon!</b>";
+        }
+        if (time > 15) {
+            msg = "<b>Good Evening!</b>";
         }
 
         $("#time_greeting").html(msg);

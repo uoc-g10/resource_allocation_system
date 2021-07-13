@@ -34,7 +34,7 @@
 
         <?php if ($loginUserRole == "Admin") { ?>
           <li class="header">ADMIN</li>
-          <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li>
+          <!-- <li><a href="../reservation_module/manage_reservation.php"><i class="fa fa-calendar"></i> <span> Reservations </span></a></li> -->
           <li><a href="../resource_module/resources.php"><i class="fa fa-university"></i> <span> Manage Resources </span></a></li>
           <li><a href="../resource_module/departments.php"><i class="fa fa-university"></i> <span> Manage Departments </span></a></li>
           <li><a href="../resource_module/faculties.php"><i class="fa fa-university"></i> <span> Manage Faculties </span></a></li>

@@ -79,7 +79,7 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                                         <th width="50px" class="text-center">Id</th>
                                         <th>Resource Name</th>
                                         <th>Location</th>
-                                        <th>Type</th>
+                                        <!-- <th>Type</th> -->
                                         <th>Faculty</th>
                                         <th>Department</th>
                                         <th>Category</th>
@@ -119,7 +119,7 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                                 <input type="text" class="form-control" id="location" name="location" Placeholder="Location">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label for="type" class="col-sm-3 control-label">Type</label>
 
                             <div class="col-sm-9">
