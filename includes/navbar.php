@@ -36,8 +36,8 @@ if (isset($_SESSION['loggedin'])) {
 <header class="main-header">
 
   <a href="../user_dashboard_module/user_dashboard.php" class="logo">
-    <span class="logo-mini"><b>SRAS</b></span>
-    <span class="logo-lg"><b>SRAS</b></span>
+    <span class="logo-mini"><b>SRA</b></span>
+    <span class="logo-lg"><b>SRA</b></span>
   </a>
 
   <nav class="navbar navbar-static-top navbar-fixed-top">
@@ -62,10 +62,14 @@ if (isset($_SESSION['loggedin'])) {
             </li>
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#profile" data-toggle="modal" class="btn btn-default btn-flat" id="admin_profile">Update</a>
+                <a href="../user_module/profile.php" class="btn btn-default btn-flat">
+                  <i class="fa fa-user-circle"></i> My Profile
+                </a>
               </div>
               <div class="pull-right">
-                <a href="../user_module/user_login.php?logout=1" class="btn btn-default btn-flat">Sign out</a>
+                <a href="../user_module/user_login.php?logout=1" class="btn btn-default btn-flat">
+                  <i class="fa fa-log-out"></i> Sign out
+                </a>
               </div>
             </li>
           </ul>

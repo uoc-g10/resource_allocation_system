@@ -31,9 +31,9 @@
         <div class="form-group">
             <label for="mobile_edit" class="col-sm-3 control-label">Start Time</label>
             <div class="col-sm-3">
-                <input id="start_time_input" class="start_time form-control" type="time" name="start_time" required>
+                <input id="start_time_input2" class="start_time form-control" type="time" name="start_time" required>
             </div>
-            <div id="endTimeSelect">
+            <div id="endTimeSelect2">
             </div>
         </div>
         <div class="form-group">
@@ -46,12 +46,13 @@
     </div>
 </form>
 <script>
-    var disableTimesStart = <?php echo $disableTimesStart; ?>;
+    $('#endTimeSelect2').html('');
+    var disableTimesStart_edit = <?php echo $disableTimesStart; ?>;
     var selectedStartMinites = <?php echo $selectedStartMinites; ?>;
     var scheduleId = <?php echo $scheduleId; ?>;
     var resDay = "<?php echo $resDay; ?>";
 
-    var $start_time_picker = $('.start_time').pickatime({
+    var $start_time_picker2 = $('#start_time_input2').pickatime({
         editable: false,
         hiddenName: true,
         hiddenPrefix: 'prefix__',
@@ -60,7 +61,7 @@
         interval: 30,
         min: [6, 0],
         max: [17, 0],
-        disable: disableTimesStart,
+        disable: disableTimesStart_edit,
         formatLabel: function(time) {
             //console.log($(this));
             //console.log(disableTimesStart);
@@ -68,8 +69,8 @@
         }
     });
 
-    var start_time_picker = $start_time_picker.pickatime('picker');
-    start_time_picker.set('select', selectedStartMinites);
+    var start_time_picker2 = $start_time_picker2.pickatime('picker');
+    start_time_picker2.set('select', selectedStartMinites);
 
     $('.picker__list-item--disabled').each(function() {
         $('.picker__list-item--disabled').find('small').html('Reserved');
@@ -112,12 +113,14 @@
         });
     });
 
-    $("#start_time_input").on('change', function() {
+    $("#start_time_input2").on('change', function() {
         var inputTime = $(this).val();
         displayEndTime(inputTime);
     });
 
-    displayEndTime($("#start_time_input").val());
+    setTimeout(function() {
+        displayEndTime($("#start_time_input2").val());
+    }, 100);
 
     function displayEndTime(inputTime) {
         $.ajax({
@@ -130,7 +133,7 @@
                 'scheduleId': scheduleId
             },
             success: function(response) {
-                $("#endTimeSelect").html(response);
+                $("#endTimeSelect2").html(response);
             }
         });
     }

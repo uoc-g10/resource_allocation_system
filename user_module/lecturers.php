@@ -61,7 +61,7 @@ $result_3 = mysqli_query($conn, $query3);
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="row">
-                                                    <a href="#addnew" data-toggle="modal" data-target="#addUser" class="btn btn-success btn-sm btn-flat"><i class="fa fa-plus"></i> Add New Lecturer</a>
+                                                    <a href="#addnew" id="newLecturer" data-toggle="modal" data-target="#addUser" class="btn btn-success btn-sm btn-flat"><i class="fa fa-plus"></i> Add New Lecturer</a>
                                                 </div>
                                             </div>
 
@@ -135,7 +135,7 @@ $result_3 = mysqli_query($conn, $query3);
                         <div class="form-group">
                             <label for="firstname" class="col-sm-3 control-label">First Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" required>
+                                <input type="text" class="form-control" id="firstname" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" name="firstname" placeholder="First Name" required>
                             </div>
                         </div>
 
@@ -143,7 +143,7 @@ $result_3 = mysqli_query($conn, $query3);
                             <label for="secondname" class="col-sm-3 control-label">Second Name</label>
 
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="secondname" name="secondname" placeholder="Second Name" required>
+                                <input type="text" class="form-control" id="secondname" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" name="secondname" placeholder="Second Name" required>
                             </div>
                         </div>
 
@@ -151,7 +151,7 @@ $result_3 = mysqli_query($conn, $query3);
                             <label for="mobile" class="col-sm-3 control-label">Mobile Number</label>
 
                             <div class="col-sm-9">
-                                <input type="tel" class="form-control" maxlength="10" id="mobile" name="mobile" placeholder="Lecturer Mobile Number (Optional)">
+                                <input type="tel" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="mobile" name="mobile" placeholder="Lecturer Mobile Number (Optional)">
                             </div>
                         </div>
 
@@ -235,21 +235,21 @@ $result_3 = mysqli_query($conn, $query3);
                         <div class="form-group">
                             <label for="firstname_edit" class="col-sm-3 control-label">First Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="firstname_edit" name="firstname" placeholder="First Name" required>
+                                <input type="text" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" class="form-control" id="firstname_edit" name="firstname" placeholder="First Name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="secondname_edit" class="col-sm-3 control-label">Second Name</label>
 
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="secondname_edit" name="secondname" placeholder="Second Name" required>
+                                <input type="text" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" class="form-control" id="secondname_edit" name="secondname" placeholder="Second Name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="mobile_edit" class="col-sm-3 control-label">Mobile Number</label>
 
                             <div class="col-sm-9">
-                                <input type="tel" class="form-control" maxlength="10" id="mobile_edit" name="mobile" placeholder="Lecturer Mobile Number (Optional)" required>
+                                <input type="tel" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="mobile_edit" name="mobile" placeholder="Lecturer Mobile Number (Optional)" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -339,7 +339,13 @@ $result_3 = mysqli_query($conn, $query3);
     // Search DataTable on Custom Input Field
     $('#customSearch').keyup(function() {
         dataTable.search($(this).val()).draw();
-    })
+    });
+
+    // Clear Error messages when opening modal
+    $('#newLecturer').click(function(){
+        $('.color-red').remove();
+        $('input').removeClass('border-red');
+    });
 
     // Edit User Details
     $(document).on('click', '.edit-user', function() {
@@ -404,7 +410,10 @@ $result_3 = mysqli_query($conn, $query3);
                 } else {
                     var responseArray = JSON.parse(response);
                     $('#' + responseArray[0]['id']).addClass('border-red');
-                    $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
+                    if ($('#' + responseArray[0]['id']).parent().find('.color-red').length < 1) {
+                        $('#' + responseArray[0]['id']).parent().append("<span class='color-red'>" + responseArray[0]['msg'] + '</span>');
+                    }
+
                 }
             }
         });

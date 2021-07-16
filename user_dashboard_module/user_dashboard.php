@@ -1,11 +1,12 @@
 <?php
+
 include '../common/header.php';
 require '../includes/conn.php';
 
-
-
 $LoginUser = $User['id'];
 $Today = date("Y-m-d");
+
+
 if ($User['role'] == 'ROLE_ADMIN') {
     $schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";
 } else {
@@ -28,6 +29,7 @@ foreach ($scheduleQueryResults as $schedule) {
 
 $UserSehedulesJson = json_encode($UserSehedules);
 ?>
+
 <div class="wrapper">
 
     <?php include '../includes/navbar.php'; ?>
@@ -212,10 +214,24 @@ $UserSehedulesJson = json_encode($UserSehedules);
                 <div class="col-md-5">
                     <div class="box">
                         <div class="box-body">
-                            <div id='time_greeting' class="text-center">
+                            <div class="text-center">
                                 <h3 class="">Today Reservations</h3>
                                 <br>
-                                <div id="element"></div>
+                                <div id="element">
+                                    <div>
+                                        <div>
+                                            <br>
+                                            <br>
+                                            <img src="../public/images/no-today-reservations.svg" width="250px">
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <h4 class="text-muted"> No Reservations for today </h4>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -244,6 +260,7 @@ $UserSehedulesJson = json_encode($UserSehedules);
         var dataJson = [];
 
         for (var i = 0; todayReservations.length > i; i++) {
+            $("#element").html('');
             dataJson.push({
                 'time': new Date(todayReservations[i]['time']),
                 'color': todayReservations[i]['color'],
@@ -262,20 +279,19 @@ $UserSehedulesJson = json_encode($UserSehedules);
         if (time < 12) {
             msg = "Good Morning!";
         }
-        if (time > 12) {
+        if (time >= 12) {
             msg = "<b>Good Afternoon!</b>";
         }
-        if (time == 12) {
-            msg = "<b>Good Afternoon!</b>";
-        }
+
         if (time > 15) {
             msg = "<b>Good Evening!</b>";
         }
 
         $("#time_greeting").html(msg);
 
+        // Clock
 
-        var monthNames = ["January", "February", "March", "April", "මැයි", "June", "July", "August", "September", "October", "November", "December"];
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var dayNames = [
             "Sunday",
             "Monday",
@@ -285,6 +301,7 @@ $UserSehedulesJson = json_encode($UserSehedules);
             "Friday",
             "Saturday"
         ];
+
         var newDate = new Date();
 
         newDate.setDate(newDate.getDate());

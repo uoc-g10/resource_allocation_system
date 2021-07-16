@@ -7,6 +7,18 @@ $resources = [];
 while ($resource = mysqli_fetch_array($result)) {
     $resources[$resource['category']][] = array('id' => $resource['id'], 'name' =>  $resource['name']);
 }
+
+$RESOURCE = 0;
+$RESOURCE_CATEGORY = 0;
+
+if (isset($_COOKIE['schedule_table_resource']) and $_COOKIE['schedule_table_resource']) {
+    $RESOURCE = $_COOKIE['schedule_table_resource'];
+}
+
+if (isset($_COOKIE['schedule_table_resource_category']) and $_COOKIE['schedule_table_resource_category']) {
+    $RESOURCE_CATEGORY = $_COOKIE['schedule_table_resource_category'];
+}
+
 include '../common/header.php';
 ?>
 
@@ -68,11 +80,11 @@ include '../common/header.php';
                                         <div class="col-md-12">
                                             <label class="reservation-titles"> Resource Category </label>
                                             <select class="form-control" id="catogory" name="catogory">
-                                                <option value="Lecture Hall"> Lecture Hall </option>
-                                                <option value="Auditorium"> Auditorium </option>
-                                                <option value="Laboratory"> Laboratory </option>
-                                                <option value="Playground"> Playground </option>
-                                                <option value="Others"> Other </option>
+                                                <option value="Lecture Hall" <?php echo $RESOURCE_CATEGORY == 'Lecture Hall' ? 'selected' : ''; ?>> Lecture Hall </option>
+                                                <option value="Auditorium" <?php echo $RESOURCE_CATEGORY == 'Auditorium' ? 'selected' : ''; ?>> Auditorium </option>
+                                                <option value="Laboratory" <?php echo $RESOURCE_CATEGORY == 'Laboratory' ? 'selected' : ''; ?>> Laboratory </option>
+                                                <option value="Playground" <?php echo $RESOURCE_CATEGORY == 'Playground' ? 'selected' : ''; ?>> Playground </option>
+                                                <option value="Others" <?php echo $RESOURCE_CATEGORY == 'Others' ? 'selected' : ''; ?>> Other </option>
                                             </select>
                                         </div>
                                     </div>
@@ -81,7 +93,11 @@ include '../common/header.php';
                                             <label class="reservation-titles"> Resource </label>
                                             <select class="form-control" id="resources">
                                                 <?php foreach ($resources as $key => $res) {
-                                                    echo "<option value='{$key}'> {$res} </option>";
+                                                    if ($RESOURCE == $key) {
+                                                        echo "<option value='{$key}' selected > {$res}{$key} </option>";
+                                                    } else {
+                                                        echo "<option value='{$key}' > {$res}{$key} </option>";
+                                                    }
                                                 }
                                                 ?>
                                             </select>
@@ -90,8 +106,12 @@ include '../common/header.php';
                                 </div>
                             </div>
                             <hr>
+                            <h2 id="selectedResource" class="text-center"></h2>
                             <div class="schedule-calender">
                                 <div id="schedule"></div>
+                                <!-- <div id="loading" class="text-center">
+                                    <img src="../public/images/loading.svg">
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -140,6 +160,8 @@ include '../common/header.php';
 <script type="text/javascript">
     $(document).ready(function() {
 
+        var selectedResource = '<?php echo $RESOURCE; ?>';
+
         duDatepicker('#datepicker1', {
             format: 'mmmm d, yyyy',
             range: true,
@@ -171,6 +193,17 @@ include '../common/header.php';
 
         $('#reloadTableData').click(function() {
             loadScheduleData();
+        });
+
+        $('#resources, #catogory').on('change', function() {
+            //$('.schedule-calender').hide();
+            setTimeout(function() {
+                $('#selectedResource').html($("#resources option:selected").text());
+                setCookie('schedule_table_resource', $("#resources").val(), 30);
+                setCookie('schedule_table_resource_category', $("#catogory").val(), 30);
+                loadScheduleData();
+                //$('.schedule-calender').show();
+            }, 300);
         });
 
         var selectedStart = '';
@@ -256,7 +289,7 @@ include '../common/header.php';
                 var ramdom_id = Math.floor(Math.random() * 10000);
                 node.attr('data-pop-id', '#popid_' + ramdom_id);
                 var actionButtons = '';
-                console.log(data.data.actions);
+                //console.log(data.data);
                 if (data.data.actions) {
                     actionButtons = "<div class='info-buttons' data-headding='" + data.data.headding + "' data-date='" + data.data.date + "' data-id='" + data.data.id + "'> <button class='btn btn-default edit-schedule-event'> <i class='fa fa-edit'></i> </button> <button class='btn btn-danger remove-schedule-event'> <i class='fa fa-trash'></i> </button> </div>";
                 }
@@ -381,6 +414,12 @@ include '../common/header.php';
                 var option = $('<option>');
                 option.attr('value', id);
                 option.append(name);
+
+                if (selectedResource == id) {
+                    option.attr('selected', 'selected');
+                    $('#selectedResource').html(name);
+                }
+
                 $('#resources').append(option);
             }
         }

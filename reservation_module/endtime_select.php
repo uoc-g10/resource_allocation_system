@@ -1,7 +1,10 @@
+<?php
+$rand = rand(100, 999);
+?>
 <?php if ($invalid >= 0) { ?>
     <label for="mobile_edit" class="col-sm-2 control-label">End Time</label>
     <div class="col-sm-4">
-        <input id="input_from2" class="end_time form-control" type="time" name="end_time" required>
+        <input id="input_from2" class="end_time2_<?php echo $rand; ?> form-control" type="time" name="end_time" required>
     </div>
 <?php } else { ?>
     <div class="col-sm-6">
@@ -18,9 +21,20 @@
     var stopEndTimes = <?php echo $stopEndTimes; ?>;
     var selectedEndMinites = <?php echo $selectedEndMinites; ?>;
 
-    console.log(selectedEndMinites);
+    //console.log(selectedEndMinites);
 
-    var $end_time_picker = $('.end_time').pickatime({
+    // var loop = 0;
+
+    // $('.end_time2').each(function() {
+    //     if ($('.end_time2').length > 1) {
+    //         $(this).remove();
+    //     }
+    // });
+
+    // //console.log($('.end_time2').length);
+
+
+    var $end_time_picker = $('.end_time2_<?php echo $rand; ?>').pickatime({
         editable: false,
         hiddenName: true,
         hiddenPrefix: 'prefix__',

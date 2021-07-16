@@ -5,11 +5,15 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // Reset Link Send Action
+
     if (isset($_POST['password-reset'])) {
 
         $resetImage = $_SERVER['HTTP_ORIGIN'] . '/public/images/passwod-reset.png';
         $email = $_POST['email'];
         $token = bin2hex(random_bytes(50));
+        
+        $token = 'JSIDHS&^DUHS*&SDISD(*&TD(S*D';
 
         $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $sql);
@@ -57,6 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+
+// Gmail Link to Change Password
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['_token'])) {

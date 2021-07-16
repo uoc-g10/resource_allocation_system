@@ -1,3 +1,14 @@
+<?php
+
+$query = "SELECT id,title,firstname,secondname FROM users WHERE role='ROLE_LECTURER' ";
+$result = mysqli_query($conn, $query);
+
+$lectureres = [];
+while ($row = mysqli_fetch_array($result)) {
+    $lectureres[] = $row;
+}
+?>
+
 <form class="form-horizontal" method="POST" id="createReservationFrm" enctype="multipart/form-data">
     <div class="modal-body">
         <input type="hidden" id="resource_id" name="resource_id" value="<?php echo $resource_id; ?>">
@@ -29,10 +40,27 @@
                 <textarea type="text" class="form-control" id="reservation_description" rows="5" name="reservation_description" placeholder="Reservation Title" required></textarea>
             </div>
         </div>
+
+        <?php if ($User['role'] == 'ROLE_ADMIN') { ?>
+
+            <div class="form-group">
+                <label for="reservation_description" class="col-sm-3 control-label">Lecturer</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="reservation_lecturer" id="selectLecturer">
+                        <option value="<?php echo $User['id']; ?>"> N/A </option>
+                        <?php foreach ($lectureres as $lecture) {
+                            echo "<option value='" . $lecture['id'] . "'> " . $lecture['title'] . " " . $lecture['firstname'] . " " . $lecture['secondname'] . "</option>";
+                        } ?>
+                    </select>
+                </div>
+            </div>
+
+        <?php } ?>
+
         <div class="form-group">
             <label for="mobile_edit" class="col-sm-3 control-label">Start Time</label>
             <div class="col-sm-3">
-                <input id="start_time_input" class="start_time form-control" type="time" name="start_time" required>
+                <input id="start_time_input1" class="start_time form-control" type="time" name="start_time" required>
             </div>
             <div id="endTimeSelect">
             </div>
@@ -50,7 +78,7 @@
     var disableTimesStart = <?php echo $disableTimesStart; ?>;
     var resDay = "<?php echo $resDay; ?>";
 
-    var $start_time_picker = $('.start_time').pickatime({
+    var $start_time_picker = $('#start_time_input1').pickatime({
         editable: false,
         hiddenName: true,
         hiddenPrefix: 'prefix__',
@@ -110,7 +138,7 @@
         });
     });
 
-    $("#start_time_input").on('change', function() {
+    $("#start_time_input1").on('change', function() {
         var inputTime = $(this).val();
         $.ajax({
             type: 'POST',

@@ -6,7 +6,6 @@ require '../includes/conn.php';
 require '../includes/sendEmails.php';
 
 
-
 //Load Table Data By AJAX
 
 if (isset($_POST['load_table']) and $_POST['load_table']) {

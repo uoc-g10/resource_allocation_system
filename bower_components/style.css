@@ -1,49 +1,49 @@
 .calendar-sidebar {
-    background-color: #222d32;  
-    box-shadow: 5px 0 0px -3px #ffffff; 
+    background-color: #222d32;
+    box-shadow: 5px 0 0px -3px #ffffff;
 }
 .evo-calendar {
     box-shadow: 0 10px 0px -20px #8773c1;
 }
-#logs{
+#logs {
     border: solid 1px #bbb;
     padding: 16px;
     background: #eee;
 }
-#logs .table{
+#logs .table {
     margin-bottom: 0;
 }
 #logs .table td,
-#logs .table th{
+#logs .table th {
     border: none;
 }
-#schedule .sc_bar_insert{
+#schedule .sc_bar_insert {
     background-color: #ff678a;
 }
-#schedule .example2{
+#schedule .example2 {
     height: 95px !important;
     margin-top: 2px;
     border-radius: 5px;
 }
-.ui-resizable-handle  {
+.ui-resizable-handle {
     display: none !important;
 }
-#schedule .example3{
+#schedule .example3 {
     color: #2c0000;
     font-weight: bold;
     background-color: #c7ae50;
 }
 #schedule .sc_bar.sc_bar_photo .head,
-#schedule .sc_bar.sc_bar_photo .text{
+#schedule .sc_bar.sc_bar_photo .text {
     padding-left: 65px;
 }
-#schedule .sc_bar.sc_bar_photo .photo{
+#schedule .sc_bar.sc_bar_photo .photo {
     position: absolute;
     left: 10px;
     top: 10px;
     width: 38px;
 }
-#schedule .sc_bar.sc_bar_photo .photo img{
+#schedule .sc_bar.sc_bar_photo .photo img {
     width: 45px;
     border: 2px solid white;
     border-radius: 37px;
@@ -56,7 +56,9 @@
 .ttime {
     float: right !important;
 }
-.picker__list-item--disabled, .picker__list-item--disabled:hover, .picker--focused .picker__list-item--disabled {
+.picker__list-item--disabled,
+.picker__list-item--disabled:hover,
+.picker--focused .picker__list-item--disabled {
     color: #adadad;
     background: #f3f3f3;
 }
@@ -95,27 +97,29 @@
     width: 36px;
     height: 36px;
     cursor: pointer;
-    -webkit-transition: all linear .2s;
-    -moz-transition: all linear .2s;
-    -ms-transition: all linear .2s;
-    -o-transition: all linear .2s;
-    transition: all linear .2s;
-  }
-  
-  .colorPickSelector:hover { transform: scale(1.1); }
-  #colorPick {
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+.colorPickSelector:hover {
+    transform: scale(1.1);
+}
+#colorPick {
     width: 254px;
     background: rgb(255 255 255);
-  }
-  .main-header {
-      position: fixed;
-  }
-  .main-sidebar {
-      position: fixed;
-  }
-  .content-wrapper {
-  margin-top: 50px;
-  }
+}
+.main-header {
+    position: fixed;
+}
+.main-sidebar {
+    position: fixed;
+}
+.content-wrapper {
+    margin-top: 50px;
+}
 
 ._1abc9c {
     background-color: #1abc9c !important;
@@ -193,65 +197,70 @@
     background-color: #2ecc71 !important;
 }
 
-  .lecturer-name {
+.lecturer-name {
     padding-left: 65px;
     font-size: 12px;
-  }
-  .jq-schedule .sc_bar .head {
+}
+.jq-schedule .sc_bar .head {
     height: 18px;
     font-size: 15px;
-  }
-  .jq-schedule .timeline {
+}
+.jq-schedule .timeline {
     border-bottom: solid 2px #ececec;
-  }
-  .info-headding {
+}
+.info-headding {
     font-weight: bold;
     margin-top: -7px;
     margin-bottom: 5px;
-  }
-  .info-description {
+}
+.info-description {
     font-size: 12px;
     padding-bottom: 10px;
-
-  }
-  .info-time {
+}
+.info-time {
     font-size: 13px;
     padding-bottom: 9px;
-  }
-  .info-buttons {
+}
+.info-buttons {
     text-align: left;
     margin-bottom: -17px;
-  }
-
-  .skin-blue .main-header .navbar {
-     background-color: #b52c1f;
 }
-.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+
+.skin-blue .main-header .navbar,
+.skin-blue .main-header .logo:hover {
+    background-color: #b52c1f;
+}
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
     background-color: #ecf0f5;
 }
 .skin-blue .main-header .logo {
     background-color: #ca3729;
 }
-.skin-blue .user-panel>.info, .skin-blue .user-panel>.info>a {
+.skin-blue .user-panel > .info,
+.skin-blue .user-panel > .info > a {
     color: #000;
 }
-.skin-blue .sidebar-menu>li.header {
+.skin-blue .sidebar-menu > li.header {
     color: #000000;
     background: #d2d6de69;
     font-weight: 600;
     font-size: 13px;
     border-radius: 0 23px 26px 0px;
 }
-.skin-blue .sidebar-menu>li.active>a {
+.skin-blue .sidebar-menu > li.active > a {
     border-left-color: #ca3729;
 }
- .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li.menu-open>a {
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.menu-open > a {
     color: #ca3729;
     background: #ecf0f5;
     /* border-radius: 5px; */
     font-weight: bold;
 }
-.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li>a {
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li > a {
     color: #484848;
     background: #ecf0f5;
 }
@@ -276,7 +285,8 @@
     background: #ecf0f5;
     color: #555555;
 }
-.jq-schedule .sc_menu .sc_header_cell, .jq-schedule .sc_data {
+.jq-schedule .sc_menu .sc_header_cell,
+.jq-schedule .sc_data {
     background: #ecf0f5;
     color: #404040;
 }
@@ -301,4 +311,24 @@
 .sidebar {
     height: calc(100vh - 47px);
     overflow: auto;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.skin-blue .main-header li.user-header {
+    background-color: white;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header > p {
+    color: rgb(41 41 41);
+}
+
+.h-home-auto {
+    height: calc(100vh - 247px);
+}
+
+.sidebar-collapse .sidebar {
+    overflow: unset !important;
 }

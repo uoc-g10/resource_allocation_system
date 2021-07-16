@@ -7,6 +7,16 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit();
 }
 
+$RESOURCE = 0;
+$RESOURCE_CATEGORY = 0;
+
+if (isset($_COOKIE['schedule_table_resource']) and $_COOKIE['schedule_table_resource']) {
+    $RESOURCE = $_COOKIE['schedule_table_resource'];
+}
+
+if (isset($_COOKIE['schedule_table_resource_category']) and $_COOKIE['schedule_table_resource_category']) {
+    $RESOURCE_CATEGORY = $_COOKIE['schedule_table_resource_category'];
+}
 
 // Load Table Data
 if (isset($_POST['loadSchedule'])) {
@@ -32,7 +42,11 @@ if (isset($_POST['loadSchedule'])) {
         $qDate = date("Y-m-d", strtotime($day));
         $DateName = date("l", strtotime($day));
 
-        $query2 = "SELECT urm.*, usr.id as user_id, usr.firstname, usr.title as utitle, usr.secondname, usr.image_path, usr.color FROM user_resource_map as urm INNER JOIN users as usr ON urm.user_id = usr.id WHERE start_time LIKE '$qDate%'";
+        $query2 = "SELECT urm.*, usr.id as user_id, usr.firstname, usr.title as utitle, usr.secondname, usr.image_path, usr.color FROM user_resource_map as urm INNER JOIN users as usr ON urm.user_id = usr.id WHERE start_time LIKE '$qDate%' ";
+
+        if ($RESOURCE) {
+            $query2 = $query2 . " AND urm.resource_id= $RESOURCE";
+        }
 
         $result2 = mysqli_query($conn, $query2);
         while ($ress = mysqli_fetch_array($result2)) {
@@ -44,13 +58,18 @@ if (isset($_POST['loadSchedule'])) {
                 $lecturerImage = '../' . $ress['image_path'];
             }
 
+            $act = 0;
+            if ($ress['user_id'] == $User['id'] or $User['role'] == 'ROLE_ADMIN') {
+                $act = 1;
+            }
+
             $reservations[] = [
                 "start" => $startDate,
                 "end" => $endDate,
                 "text" => $ress['title'],
                 "data" => array(
                     "id" => $ress['id'],
-                    "actions" => $ress['user_id'] == $User['id'] ? 1 : 0,
+                    "actions" => $act,
                     "class" => "example2",
                     "color" => str_replace('#', '_', $ress['color']),
                     "description" => $ress['description'],
@@ -101,25 +120,32 @@ if (isset($_POST['addReservationModal'])) {
 
     //foreach ($days as $key => $day) {
 
-        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ORDER BY start_time";
-        $result2 = mysqli_query($conn, $query2);
-        $loop = 1;
-        while ($ress = mysqli_fetch_array($result2)) {
-            $startDate = date("H:i", strtotime($ress['start_time']));
-            $endDate = date("H:i", strtotime($ress['end_time']));
+    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ";
 
-            $TmpArray[$loop] = [
-                "from" => [
-                    (int) date("H", strtotime($ress['start_time'])),
-                    (int) date("i", strtotime($ress['start_time'])),
-                ],
-                "to" => [
-                    (int) date("H", strtotime($ress['end_time'])),
-                    (int) date("i", strtotime($ress['end_time'])),
-                ]
-            ];
-            $loop++;
-        }
+    if ($RESOURCE) {
+        $query2 = $query2 . " AND urm.resource_id= $RESOURCE ";
+    }
+
+    $query2 = $query2 . " ORDER BY start_time";
+
+    $result2 = mysqli_query($conn, $query2);
+    $loop = 1;
+    while ($ress = mysqli_fetch_array($result2)) {
+        $startDate = date("H:i", strtotime($ress['start_time']));
+        $endDate = date("H:i", strtotime($ress['end_time']));
+
+        $TmpArray[$loop] = [
+            "from" => [
+                (int) date("H", strtotime($ress['start_time'])),
+                (int) date("i", strtotime($ress['start_time'])),
+            ],
+            "to" => [
+                (int) date("H", strtotime($ress['end_time'])),
+                (int) date("i", strtotime($ress['end_time'])),
+            ]
+        ];
+        $loop++;
+    }
     //}
 
     foreach ($TmpArray as $time) {
@@ -162,25 +188,32 @@ if (isset($_POST['editReservationModal'])) {
 
     //foreach ($days as $key => $day) {
 
-        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id != $scheduleId ORDER BY start_time";
-        $result2 = mysqli_query($conn, $query2);
-        $loop = 1;
-        while ($ress = mysqli_fetch_array($result2)) {
-            $startDate = date("H:i", strtotime($ress['start_time']));
-            $endDate = date("H:i", strtotime($ress['end_time']));
+    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id != $scheduleId ";
 
-            $TmpArray[$loop] = [
-                "from" => [
-                    (int) date("H", strtotime($ress['start_time'])),
-                    (int) date("i", strtotime($ress['start_time'])),
-                ],
-                "to" => [
-                    (int) date("H", strtotime($ress['end_time'])),
-                    (int) date("i", strtotime($ress['end_time'])),
-                ]
-            ];
-            $loop++;
-        }
+    if ($RESOURCE) {
+        $query2 = $query2 . " AND urm.resource_id= $RESOURCE ";
+    }
+
+    $query2 = $query2 . " ORDER BY start_time";
+
+    $result2 = mysqli_query($conn, $query2);
+    $loop = 1;
+    while ($ress = mysqli_fetch_array($result2)) {
+        $startDate = date("H:i", strtotime($ress['start_time']));
+        $endDate = date("H:i", strtotime($ress['end_time']));
+
+        $TmpArray[$loop] = [
+            "from" => [
+                (int) date("H", strtotime($ress['start_time'])),
+                (int) date("i", strtotime($ress['start_time'])),
+            ],
+            "to" => [
+                (int) date("H", strtotime($ress['end_time'])),
+                (int) date("i", strtotime($ress['end_time'])),
+            ]
+        ];
+        $loop++;
+    }
     //}
 
     foreach ($TmpArray as $time) {
@@ -250,10 +283,16 @@ if (isset($_POST['getEndTime'])) {
 
     //foreach ($days as $key => $day) {
 
-    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ORDER BY start_time";
+    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' ";
     if ($scheduleId) {
-        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id!=$scheduleId ORDER BY start_time";
+        $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id!=$scheduleId ";
     }
+
+    if ($RESOURCE) {
+        $query2 = $query2 . " AND urm.resource_id= $RESOURCE ";
+    }
+
+    $query2 = $query2 . " ORDER BY start_time";
 
     $result2 = mysqli_query($conn, $query2);
     $loop = 1;
@@ -277,7 +316,14 @@ if (isset($_POST['getEndTime'])) {
 
     $stopEndTime =  [18, 0];
     $stopTime = date("Y-m-d H:i", strtotime($selectedDate . ' ' . $selectedTimeHI));
-    $query3 = "SELECT id,start_time FROM user_resource_map WHERE start_time LIKE '$selectedDate%' AND start_time > '$stopTime%' ORDER BY start_time LIMIT 1";
+    $query3 = "SELECT id,start_time FROM user_resource_map WHERE start_time LIKE '$selectedDate%' AND start_time > '$stopTime%' ";
+
+    if ($RESOURCE) {
+        $query3 = $query3 . " AND resource_id= $RESOURCE ";
+    }
+
+    $query3 = $query3 . " ORDER BY start_time LIMIT 1";
+
     $result3 = mysqli_query($conn, $query3);
     $stopTimesTmpArray = mysqli_fetch_array($result3);
 
@@ -359,6 +405,10 @@ if (isset($_POST['make_reservation'])) {
     $form_reservation_date = $_POST['form_reservation_date'];
     $start_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['start_time']));
     $end_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['end_time']));
+
+    if (isset($_POST['reservation_lecturer']) and $_POST['reservation_lecturer']) {
+        $user_id = $_POST['reservation_lecturer'];
+    }
 
     if (!isset($_POST['start_time']) or !$_POST['start_time']) {
         echo 5;
