@@ -73,7 +73,7 @@ if (!isset($_SESSION['id'])) {
                                         <div>
                                             <div class="text-center user-image-wapper">
                                                 <input type='file' data-uid="<?php echo $uid; ?>" onchange="readURL(this);" accept="image/*" style="display: none;" />
-                                                <div class="user-image" style="background-image: url('<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>');"></div>
+                                                <div class="user-image" style="background-image: url('<?php echo $User['image_path'] ?  '../' . $User['image_path'] . '?t=' . rand(1000, 9999) :  '../images/profile.jpg'; ?>');"></div>
                                                 <div class="user-image-update" onclick="$(this).parent().find('input').trigger('click');">
                                                     <i class="fa fa-edit"></i>
                                                 </div>
@@ -101,21 +101,21 @@ if (!isset($_SESSION['id'])) {
                                                 <div class="form-group">
                                                     <label for="firstname" class="col-sm-4 control-label">First Name</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" value="<?php echo $User['firstname']; ?>" required>
+                                                        <input type="text" class="form-control" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" id="firstname" name="firstname" placeholder="First Name" value="<?php echo $User['firstname']; ?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="secondname" class="col-sm-4 control-label">Second Name</label>
 
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="secondname" name="secondname" placeholder="Second Name" value="<?php echo $User['secondname']; ?>" required>
+                                                        <input type="text" class="form-control" maxlength="30" onkeypress="return /[a-z]/i.test(event.key)" id="secondname" name="secondname" placeholder="Second Name" value="<?php echo $User['secondname']; ?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="mobile" class="col-sm-4 control-label">Mobile Number</label>
 
                                                     <div class="col-sm-8">
-                                                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="User Mobile Number (Optional)" value="<?php echo $User['mobile']; ?>">
+                                                        <input type="tel" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="mobile" name="mobile" placeholder="User Mobile Number (Optional)" value="<?php echo $User['mobile']; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -274,7 +274,26 @@ if (!isset($_SESSION['id'])) {
 
     // Handle Image
     function readURL(input) {
-        if (input.files && input.files[0]) {
+
+        var ext = input.value.match(/\.(.+)$/)[1];
+        switch (ext) {
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                notImage = 0;
+                break;
+            default:
+                this.value = '';
+                notImage = 1;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please select a image file <br><br> <small> .jpg .jpeg .png </small>',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+        }
+
+        if (input.files && input.files[0] && !notImage) {
             var lid = input.getAttribute('data-uid');
             var reader = new FileReader();
             reader.onload = function(e) {

@@ -3,7 +3,7 @@
     <br>
     <div class="user-panel">
       <div class="pull-left image">
-        <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
+        <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] . '?t=' . rand(1000, 9999) :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p><?php echo $loginUser; ?> </p>

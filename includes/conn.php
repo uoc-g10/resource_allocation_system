@@ -2,7 +2,7 @@
 session_start();
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "pawelb2020";
 $dbname = "allocationsystem";
 
 // Create connection
