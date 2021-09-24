@@ -12,8 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resetImage = $_SERVER['HTTP_ORIGIN'] . '/public/images/passwod-reset.png';
         $email = $_POST['email'];
         $token = bin2hex(random_bytes(50));
-        
-        $token = 'JSIDHS&^DUHS*&SDISD(*&TD(S*D';
 
         $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $sql);

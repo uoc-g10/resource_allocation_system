@@ -134,7 +134,7 @@ if (!isset($_SESSION['id'])) {
                                                         <small>Login Email can not be changed.</small>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <label for="department" class="col-sm-4 control-label">Password</label>
                                                     <div class="col-sm-8">
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changePassword">
@@ -142,7 +142,7 @@ if (!isset($_SESSION['id'])) {
                                                         </button><br>
                                                         <small>You can change your password here.</small>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <br>
                                                 <div class="form-group">
                                                     <label for="department" class="col-sm-4 control-label"></label>

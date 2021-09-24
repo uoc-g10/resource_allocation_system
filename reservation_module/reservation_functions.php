@@ -318,6 +318,10 @@ if (isset($_POST['getEndTime'])) {
     $stopTime = date("Y-m-d H:i", strtotime($selectedDate . ' ' . $selectedTimeHI));
     $query3 = "SELECT id,start_time FROM user_resource_map WHERE start_time LIKE '$selectedDate%' AND start_time > '$stopTime%' ";
 
+    if ($scheduleId) {
+        $query3 = "SELECT id,start_time FROM user_resource_map WHERE start_time LIKE '$selectedDate%' AND start_time > '$stopTime%' AND id!=$scheduleId ";
+    }
+
     if ($RESOURCE) {
         $query3 = $query3 . " AND resource_id= $RESOURCE ";
     }

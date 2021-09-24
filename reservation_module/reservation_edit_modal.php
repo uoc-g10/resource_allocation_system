@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="POST" id="createReservationFrm" enctype="multipart/form-data">
+<form class="form-horizontal" method="POST" id="createReservationFrm_<?php echo $randId = rand(10000, 9999); ?>" enctype="multipart/form-data">
     <div class="modal-body">
         <input type="hidden" name="edit_reservation" value="1">
         <input type="hidden" id="form_reservation_date" name="form_reservation_date" value="<?php echo $resDay; ?>">
@@ -76,12 +76,12 @@
         $('.picker__list-item--disabled').find('small').html('Reserved');
     });
 
-    $("#createReservationFrm").submit(function(e) {
+    $("#createReservationFrm_<?php echo $randId ?>").submit(function(e) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
             url: 'reservation_functions.php',
-            data: $('#createReservationFrm').serialize(),
+            data: $('#createReservationFrm_<?php echo $randId ?>').serialize(),
             success: function(response) {
 
                 if (response == 5) {

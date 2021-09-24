@@ -462,7 +462,7 @@ $result_3 = mysqli_query($conn, $query3);
                     },
                     success: function(data) {
                         if (data == '1') {
-                            showMessage('success', 'Faculty has been removed successfully')
+                            showMessage('success', 'Lecturer has been removed successfully')
                             dataTable.ajax.reload();
                         }
                     }

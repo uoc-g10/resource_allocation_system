@@ -26,11 +26,13 @@
             <i class="fa fa-edit"></i> <span>Make a Reservations</span>
           </a>
         </li>
-        <li class="">
-          <a href="../reservation_module/my_reservations.php">
-            <i class="fa fa-calendar-o "></i> <span>My Reservations </span>
-          </a>
-        </li>
+        <?php if ($loginUserRole == "Lecturer") { ?>
+          <li class="">
+            <a href="../reservation_module/my_reservations.php">
+              <i class="fa fa-calendar-o "></i> <span>My Reservations </span>
+            </a>
+          </li>
+        <?php } ?>
 
         <?php if ($loginUserRole == "Admin") { ?>
           <li class="header">ADMIN</li>
