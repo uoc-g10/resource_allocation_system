@@ -75,7 +75,7 @@ if (!isset($_SESSION['id'])) {
                                                 <input type='file' data-uid="<?php echo $uid; ?>" onchange="readURL(this);" accept="image/*" style="display: none;" />
                                                 <div class="user-image" style="background-image: url('<?php echo $User['image_path'] ?  '../' . $User['image_path'] . '?t=' . rand(1000, 9999) :  '../images/profile.jpg'; ?>');"></div>
                                                 <div class="user-image-update" onclick="$(this).parent().find('input').trigger('click');">
-                                                    <i class="fa fa-edit"></i>
+                                                    <i class="ti-pencil"></i> 
                                                 </div>
                                             </div>
                                         </div>

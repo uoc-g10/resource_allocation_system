@@ -112,7 +112,7 @@ $result_3 = mysqli_query($conn, $query3);
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><b>Add new User</b></h4>
+                    <h4 class="modal-title"><b>Add new Lecturer</b></h4>
                 </div>
 
                 <form class="form-horizontal" method="POST" id="lecturerCreateFrm" enctype="multipart/form-data">

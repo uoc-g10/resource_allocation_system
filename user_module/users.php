@@ -133,7 +133,7 @@ $result_3 = mysqli_query($conn, $query3);
                             <label for="mobile" class="col-sm-3 control-label">Mobile Number</label>
 
                             <div class="col-sm-9">
-                                <input type="tel" class="form-control" maxlength="10" id="mobile" name="mobile" placeholder="User Mobile Number" required>
+                                <input type="tel" class="form-control" maxlength="10" id="mobile" name="mobile" placeholder="User Mobile Number (Optional)">
                             </div>
                         </div>
                         <div class="form-group">
@@ -141,19 +141,18 @@ $result_3 = mysqli_query($conn, $query3);
 
                             <div class="col-sm-9">
                                 <select class="form-control" id="role" name="role" required>
-                                    <option value="ROLE_LECTURER">Lecturer</option>
                                     <option value="ROLE_MANAGE_USER">Managemt User</option>
                                     <option value="ROLE_ADMIN">Admin</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="department" class="col-sm-3 control-label">Faculty</label>
 
                             <div class="col-sm-9">
                                 <select class="form-control" id="faculty" name="faculty" required>
                                     <?php foreach ($faculties as $faculty) {
-                                        echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
+                                        //echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
                                     } ?>
                                 </select>
                             </div>
@@ -166,7 +165,7 @@ $result_3 = mysqli_query($conn, $query3);
                                 <select class="form-control" id="department" name="department" required>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">Email Address</label>
@@ -176,6 +175,17 @@ $result_3 = mysqli_query($conn, $query3);
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="password" class="col-sm-3 control-label">
+
+                            </label>
+                            <div class="col-sm-9">
+                                <div class="d-flex">
+                                    <i class="fa fa-info-circle mail-to-i"></i>
+                                    The system username and password details will be sent by e-mail to this e-mail address.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
                             <label for="password" class="col-sm-3 control-label">Password</label>
                             <div class="col-sm-9">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
@@ -198,7 +208,7 @@ $result_3 = mysqli_query($conn, $query3);
                                     Send Login details to User via E-mail
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
@@ -219,6 +229,7 @@ $result_3 = mysqli_query($conn, $query3);
                     <h4 class="modal-title"><b>Edit User Details</b></h4>
                 </div>
                 <form class="form-horizontal" method="POST" id="editUserFrm" enctype="multipart/form-data">
+                    <input type="hidden" id="edit_id" name="edit_id">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title</label>
@@ -250,7 +261,7 @@ $result_3 = mysqli_query($conn, $query3);
                             <label for="mobile_edit" class="col-sm-3 control-label">Mobile Number</label>
 
                             <div class="col-sm-9">
-                                <input type="tel" class="form-control" maxlength="10" id="mobile_edit" name="mobile" placeholder="User Mobile Number" required>
+                                <input type="tel" class="form-control" maxlength="10" id="mobile_edit" name="mobile" placeholder="User Mobile Number (Optional)">
                             </div>
                         </div>
                         <div class="form-group">
@@ -258,19 +269,18 @@ $result_3 = mysqli_query($conn, $query3);
 
                             <div class="col-sm-9">
                                 <select class="form-control" id="role_edit" name="role" required>
-                                    <option value="ROLE_LECTURER">Lecturer</option>
                                     <option value="ROLE_MANAGE_USER">Managemt User</option>
                                     <option value="ROLE_ADMIN">Admin</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="faculty_edit" class="col-sm-3 control-label">Faculty</label>
 
                             <div class="col-sm-9">
                                 <select class="form-control" id="faculty_edit" name="faculty" required>
                                     <?php foreach ($faculties as $faculty) {
-                                        echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
+                                        //echo "<option value='" . $faculty['id'] . "'>" . $faculty['name'] . " </option>";
                                     } ?>
                                 </select>
                             </div>
@@ -282,6 +292,24 @@ $result_3 = mysqli_query($conn, $query3);
                             <div class="col-sm-9">
                                 <select class="form-control" id="department_edit" name="department" required>
                                 </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">Email Address</label>
+
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="email_edit" name="email" placeholder="Email Address" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-3 control-label">
+
+                            </label>
+                            <div class="col-sm-9">
+                                <div class="d-flex">
+                                    <i class="fa fa-info-circle mail-to-i"></i>
+                                    Email address can not be changed.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -331,7 +359,6 @@ $result_3 = mysqli_query($conn, $query3);
         });
     });
 
-
     // json array of faculties and departments
     var array = <?php echo json_encode($departments); ?>
 
@@ -355,7 +382,8 @@ $result_3 = mysqli_query($conn, $query3);
             user_id: uid
         }, function(data) {
             var userData = JSON.parse(data);
-            console.log(userData.firstname);
+            console.log(userData);
+            $('#edit_id').val(userData.id);
             $('#title_edit').val(userData.title);
             $('#firstname_edit').val(userData.firstname);
             $('#secondname_edit').val(userData.secondname);
@@ -364,7 +392,7 @@ $result_3 = mysqli_query($conn, $query3);
             $('#department_edit').val(userData.department);
             $('#email_edit').val(userData.email);
             $("#editUserModal").modal('show');
-            updateFaculties(fid);
+            //updateFaculties(fid);
         });
     });
 
@@ -379,41 +407,41 @@ $result_3 = mysqli_query($conn, $query3);
     // });
 
     // Change departments when faculty change
-    $("#faculty, #faculty_edit").on('change', function() {
-        var fid = $(this).val();
-        updateFaculties(fid);
-    });
+    // $("#faculty, #faculty_edit").on('change', function() {
+    //     var fid = $(this).val();
+    //     updateFaculties(fid);
+    // });
 
     // Change departments when faculty change
-    $("#role").on('change', function() {
-        var role = $(this).val();
-        if (role == 'ROLE_LECTURER') {
-            $("#faculty").parent().parent().show();
-            $("#department").parent().parent().show();
-        } else {
-            $("#faculty").parent().parent().hide();
-            $("#department").parent().parent().hide();
-        }
-    });
+    // $("#role").on('change', function() {
+    //     var role = $(this).val();
+    //     if (role == 'ROLE_LECTURER') {
+    //         $("#faculty").parent().parent().show();
+    //         $("#department").parent().parent().show();
+    //     } else {
+    //         $("#faculty").parent().parent().hide();
+    //         $("#department").parent().parent().hide();
+    //     }
+    // });
 
     // On first Time update departments
-    updateFaculties($("#faculty").val());
+    //updateFaculties($("#faculty").val());
 
     // Change departments Function
-    function updateFaculties(fid) {
-        $('#department option').remove();
-        $('#department_edit option').remove();
-        for (i = 0; i < array[fid].length; i++) {
-            var id = array[fid][i]['id'];
-            var name = array[fid][i]['name'];
+    // function updateFaculties(fid) {
+    //     $('#department option').remove();
+    //     $('#department_edit option').remove();
+    //     for (i = 0; i < array[fid].length; i++) {
+    //         var id = array[fid][i]['id'];
+    //         var name = array[fid][i]['name'];
 
-            var option = $('<option>');
-            option.attr('value', id);
-            option.append(name);
-            $('#department').append(option);
-            $('#department_edit').append(option);
-        }
-    }
+    //         var option = $('<option>');
+    //         option.attr('value', id);
+    //         option.append(name);
+    //         $('#department').append(option);
+    //         $('#department_edit').append(option);
+    //     }
+    // }
 
     $("#userCreateFrm").on('submit', function(e) {
         e.preventDefault();
@@ -422,10 +450,65 @@ $result_3 = mysqli_query($conn, $query3);
             url: 'create_user.php',
             data: $('#userCreateFrm').serialize(),
             success: function(response) {
-                document.getElementById('userCreateFrm').reset();
-                $("#addUser").modal('hide');
-                dataTable.ajax.reload();
-                showMessage('success', 'New User has been created successfully')
+                if (response == 2) {
+                    showMessage('error', 'Email Already Registerd.');
+                    return;
+                }
+                if (response == 1) {
+                    document.getElementById('userCreateFrm').reset();
+                    $("#addUser").modal('hide');
+                    dataTable.ajax.reload();
+                    showMessage('success', 'New User has been created successfully')
+                }
+            }
+        });
+    });
+
+    $("#editUserFrm").on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: 'edit_user.php',
+            data: $('#editUserFrm').serialize(),
+            success: function(response) {
+                if (response == 1) {
+                    document.getElementById('editUserFrm').reset();
+                    $("#editUserModal").modal('hide');
+                    dataTable.ajax.reload();
+                    showMessage('success', 'New User has been created successfully')
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-user', function() {
+        var user_id = $(this).attr('user-id');
+
+        Swal.fire({
+            title: 'Remove User',
+            text: "Are you sure you want to delete this User?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Remove'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'remove_user.php',
+                    data: {
+                        user_id: user_id
+                    },
+                    success: function(response) {
+                        if (response == 1) {
+                            dataTable.ajax.reload();
+                            showMessage('success', 'User Removed Successfully')
+                        } else {
+                            showMessage('error', response);
+                        }
+                    }
+                });
             }
         });
     });
