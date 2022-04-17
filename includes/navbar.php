@@ -53,12 +53,12 @@ if (isset($_SESSION['loggedin'])) {
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] . '?t=' . rand(1000, 9999) :  '../images/profile.jpg'; ?>' class="user-image" alt="User Image">
+            <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="user-image" alt="User Image">
             <span class="hidden-xs"> <?php echo $loginUser; ?> </span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
-              <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] . '?t=' . rand(1000, 9999) :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
+              <img src='<?php echo $User['image_path'] ?  '../' . $User['image_path'] :  '../images/profile.jpg'; ?>' class="img-circle" alt="User Image">
               <p>
                 <?php echo $loginUser; ?>
                 <small> <?php echo $loginUserRole; ?> </small>
