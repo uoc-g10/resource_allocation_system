@@ -1,5 +1,7 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Colombo');
+
 $servername = "localhost";
 $username = "u221855502_root";
 $password = "wpAD?L]0";
