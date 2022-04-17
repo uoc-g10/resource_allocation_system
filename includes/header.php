@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Online allocation systems </title>
+  <title> ReserveX - Online allocation systems </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="../">
@@ -75,5 +75,10 @@
       height: 100%;
       border-radius: 5px;
     }
+    @media (max-width:600px){
+  .main-sidebar {
+    padding-top: 50px !important;
+  }
+}
   </style>
 </head>

@@ -169,6 +169,9 @@ $UserSehedulesJson = json_encode($UserSehedules);
         .fc-button-active {
             background-color: #b52c1f !important;
         }
+        .content {
+    margin-top: 90px;
+  }
     </style>
 
     <div class="content-wrapper">

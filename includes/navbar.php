@@ -36,8 +36,12 @@ if (isset($_SESSION['loggedin'])) {
 <header class="main-header">
 
   <a href="../user_dashboard_module/user_dashboard.php" class="logo">
-    <span class="logo-mini"><b>SRA</b></span>
-    <span class="logo-lg"><b>SRA</b></span>
+    <span class="logo-mini"><b>RX</b></span>
+    <span class="logo-lg">
+    <b>
+    <img src="../images/logo-bnw.png" width="122" style="margin-top: 3px;">
+    </b>
+    </span>
   </a>
 
   <nav class="navbar navbar-static-top navbar-fixed-top">

@@ -137,10 +137,10 @@ if (isset($_SESSION["u_email"])) {
 
         <div class="login-box-body">
             <div class="text-center">
-                <img src="../images/logo-public.png" width="100px">
+                <img src="../images/logo-colored.png" width="230px">
                 <br>
             </div>
-            <h3 class="login-box-msg">Resource Allocation System </h3>
+            <!-- <h3 class="login-box-msg">Resource Allocation System </h3> -->
             <hr>
             <div class="login-logo">
                 <h3> <b> Login </b> </h3>

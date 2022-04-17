@@ -8,8 +8,10 @@ while ($resource = mysqli_fetch_array($result)) {
     $resources[$resource['category']][] = array('id' => $resource['id'], 'name' =>  $resource['name']);
 }
 
-$RESOURCE = 0;
-$RESOURCE_CATEGORY = 0;
+array_reverse($resources);
+
+$RESOURCE = "2";
+$RESOURCE_CATEGORY = "Lecture Hall";
 
 if (isset($_COOKIE['schedule_table_resource']) and $_COOKIE['schedule_table_resource']) {
     $RESOURCE = $_COOKIE['schedule_table_resource'];
@@ -55,7 +57,7 @@ include '../common/header.php';
                     <a href="#"><i class="fa fa-dashboard"></i> Home</a>
                 </li>
                 <li class="active">
-                    Dashboard
+                    Make a Reservation
                 </li>
             </ol>
         </section>
@@ -80,11 +82,20 @@ include '../common/header.php';
                                         <div class="col-md-12">
                                             <label class="reservation-titles"> Resource Category </label>
                                             <select class="form-control" id="catogory" name="catogory">
-                                                <option value="Lecture Hall" <?php echo $RESOURCE_CATEGORY == 'Lecture Hall' ? 'selected' : ''; ?>> Lecture Hall </option>
+                                                <?php foreach ($resources as $key => $res) {
+                                                    if ($RESOURCE_CATEGORY == $key) {
+                                                        echo "<option value='{$key}' selected > {$key} </option>";
+                                                    } else {
+                                                        echo "<option value='{$key}' > {$key} </option>";
+                                                    }
+                                                }
+                                                ?>
+
+                                                <!-- <option value="Lecture Hall" <?php echo $RESOURCE_CATEGORY == 'Lecture Hall' ? 'selected' : ''; ?>> Lecture Hall </option>
                                                 <option value="Auditorium" <?php echo $RESOURCE_CATEGORY == 'Auditorium' ? 'selected' : ''; ?>> Auditorium </option>
                                                 <option value="Laboratory" <?php echo $RESOURCE_CATEGORY == 'Laboratory' ? 'selected' : ''; ?>> Laboratory </option>
                                                 <option value="Playground" <?php echo $RESOURCE_CATEGORY == 'Playground' ? 'selected' : ''; ?>> Playground </option>
-                                                <option value="Others" <?php echo $RESOURCE_CATEGORY == 'Others' ? 'selected' : ''; ?>> Other </option>
+                                                <option value="Others" <?php echo $RESOURCE_CATEGORY == 'Others' ? 'selected' : ''; ?>> Other </option> -->
                                             </select>
                                         </div>
                                     </div>

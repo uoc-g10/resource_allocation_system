@@ -431,7 +431,31 @@ a:focus {
 }
 @media (max-width: 767px) {
   .main-sidebar {
-    padding-top: 100px;
+    padding-top: 50px;
+  }
+  .content {
+    margin-top: 90px;
+  }
+  #time_greeting {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  .clock-ul {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .content-wrapper .col-xs-12,.content-wrapper .col-md-5, .content-wrapper .col-md-7 {
+    padding: 0;
+  }
+  .main-footer {
+    text-align: center;
+  }
+  #calendar .fc-toolbar-chunk {
+    min-width: 135px;
+  }
+
+  #calendar button {
+    padding: 5px;
   }
 }
 @media (max-width: 767px) {

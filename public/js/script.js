@@ -1,17 +1,19 @@
 
 
 $(".sidebar-toggle").on('click', function () {
-    setTimeout(function () {
-        if ($('.sidebar-mini').hasClass('sidebar-collapse')) {
-            setCookie('sidebar-collapse', 1, 30)
-        } else {
-            setCookie('sidebar-collapse', 0, -1)
-        }
-    }, 100);
+    if (window.innerWidth > 600){
+        setTimeout(function () {
+            if ($('.sidebar-mini').hasClass('sidebar-collapse')) {
+                setCookie('sidebar-collapse', 1, 30)
+            } else {
+                setCookie('sidebar-collapse', 0, -1)
+            }
+        }, 100);
 
-    setTimeout(function () {
-        window.location.reload();
-    }, 300);
+        setTimeout(function () {
+            window.location.reload();
+        }, 300);
+    }
 });
 
 function setCookie(cname, cvalue, exdays) {

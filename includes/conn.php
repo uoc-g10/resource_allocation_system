@@ -18,3 +18,4 @@ if (isset($_SESSION['loggedin'])) {
 	$userQueryResult = mysqli_query($conn, $userQuery);
 	$User = mysqli_fetch_array($userQueryResult);
 }
+
