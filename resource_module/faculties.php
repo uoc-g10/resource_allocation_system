@@ -1,4 +1,7 @@
-<?php include '../common/header.php'; ?>
+<?php
+require '../includes/conn.php';
+include '../common/header.php'; 
+ ?>
 <style>
     .box {
         padding: 20px;

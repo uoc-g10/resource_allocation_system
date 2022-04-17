@@ -1,10 +1,9 @@
 <?php
 session_start();
 $servername = "localhost";
-$username = "root";
-$password = "pawelb2020";
-$dbname = "allocationsystem";
-
+$username = "u221855502_root";
+$password = "wpAD?L]0";
+$dbname = "u221855502_allocation";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
