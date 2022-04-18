@@ -128,7 +128,7 @@ while ($row = mysqli_fetch_array($result)) {
                 if (response == 1) {
                     $("#createReservation").modal('hide');
                     $.jnoty("Your Reservation Created", {
-                        header: 'Input End Time',
+                        header: 'Your Reservation Created',
                         theme: 'jnoty-success',
                         life: 3000,
                     });
