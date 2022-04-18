@@ -1,3 +1,14 @@
+<?php
+
+$query = "SELECT id,title,firstname,secondname FROM users WHERE role='ROLE_LECTURER' ";
+$result = mysqli_query($conn, $query);
+
+$lectureres = [];
+while ($row = mysqli_fetch_array($result)) {
+    $lectureres[] = $row;
+}
+?>
+
 <form class="form-horizontal" method="POST" id="createReservationFrm_<?php echo $randId = rand(10000, 9999); ?>" enctype="multipart/form-data">
     <div class="modal-body">
         <input type="hidden" name="edit_reservation" value="1">
@@ -28,6 +39,25 @@
                 <textarea type="text" class="form-control" id="reservation_description" rows="5" name="reservation_description" placeholder="Reservation Title" required><?php echo $UserSchedule['description']; ?></textarea>
             </div>
         </div>
+        <?php if ($User['role'] == 'ROLE_ADMIN') { ?>
+
+            <div class="form-group">
+                <label for="reservation_description" class="col-sm-3 control-label">Lecturer</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="reservation_lecturer" id="selectLecturer">
+                        <option value="<?php echo $User['id']; ?>"> N/A </option>
+                        <?php foreach ($lectureres as $lecture) {
+                            if ($UserSchedule['user_id'] == $lecture['id']){
+                                echo "<option value='" . $lecture['id'] . "' selected> " . $lecture['title'] . " " . $lecture['firstname'] . " " . $lecture['secondname'] . "</option>";
+                            }else {
+                                echo "<option value='" . $lecture['id'] . "'> " . $lecture['title'] . " " . $lecture['firstname'] . " " . $lecture['secondname'] . "</option>";
+                            }
+                        } ?>
+                    </select>
+                </div>
+            </div>
+
+        <?php } ?>
         <div class="form-group">
             <label for="mobile_edit" class="col-sm-3 control-label">Start Time</label>
             <div class="col-sm-3">

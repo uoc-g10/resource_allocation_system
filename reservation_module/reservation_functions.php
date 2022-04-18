@@ -188,7 +188,7 @@ if (isset($_POST['editReservationModal'])) {
 
     //foreach ($days as $key => $day) {
 
-    $query2 = "SELECT urm.*, usr.firstname, usr.secondname FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id != $scheduleId ";
+    $query2 = "SELECT urm.*, usr.firstname, usr.secondname, urm.user_id FROM user_resource_map as urm LEFT JOIN users as usr ON usr.id = urm.user_id WHERE start_time LIKE '$selectedDate%' AND urm.id != $scheduleId ";
 
     if ($RESOURCE) {
         $query2 = $query2 . " AND urm.resource_id= $RESOURCE ";
@@ -440,7 +440,7 @@ if (isset($_POST['make_reservation'])) {
 // Edit Reservation
 
 if (isset($_POST['edit_reservation'])) {
-
+    $user_id = $_SESSION['id'];
     $reservation_id = $_POST['reservation_id'];
     $form_resource = $_POST['form_resource'];
     $reservation_title = $_POST['reservation_title'];
@@ -448,6 +448,10 @@ if (isset($_POST['edit_reservation'])) {
     $form_reservation_date = $_POST['form_reservation_date'];
     $start_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['start_time']));
     $end_time = date("Y-m-d H:i:s", strtotime($form_reservation_date . ' ' . $_POST['end_time']));
+
+    if (isset($_POST['reservation_lecturer']) and $_POST['reservation_lecturer']) {
+        $user_id = $_POST['reservation_lecturer'];
+    }
 
     if (!isset($_POST['start_time']) or !$_POST['start_time']) {
         echo 5;
@@ -462,7 +466,7 @@ if (isset($_POST['edit_reservation'])) {
     // $sql = "INSERT INTO user_resource_map (user_id, resource_id, title, description, start_time, end_time, status) 
     // VALUES($user_id, $resource_id, '$reservation_title', '$reservation_description', '$start_time','$end_time',1)";
 
-    $sql = "UPDATE user_resource_map SET title = '$reservation_title', description = '$reservation_description', start_time = '$start_time', end_time = '$end_time' WHERE id =$reservation_id";
+    $sql = "UPDATE user_resource_map SET title = '$reservation_title', description = '$reservation_description', start_time = '$start_time', end_time = '$end_time', user_id=$user_id WHERE id =$reservation_id";
 
     if ($conn->query($sql) == TRUE) {
         $status = 1;
