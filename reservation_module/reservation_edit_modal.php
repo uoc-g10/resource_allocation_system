@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_array($result)) {
                 <textarea type="text" class="form-control" id="reservation_description" rows="5" name="reservation_description" placeholder="Reservation Title" required><?php echo $UserSchedule['description']; ?></textarea>
             </div>
         </div>
-        <?php if ($User['role'] == 'ROLE_ADMIN') { ?>
+        <?php if ($User['role'] == 'ROLE_ADMIN' or $User['role'] == 'ROLE_MANAGE_USER') { ?>
 
             <div class="form-group">
                 <label for="reservation_description" class="col-sm-3 control-label">Lecturer</label>

@@ -7,7 +7,7 @@ $LoginUser = $User['id'];
 $Today = date("Y-m-d");
 
 
-if ($User['role'] == 'ROLE_ADMIN') {
+if ($User['role'] == 'ROLE_ADMIN' or $User['role'] == 'ROLE_MANAGE_USER') {
     $schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";
 } else {
     $schedulesQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.user_id=$LoginUser AND urm.start_time LIKE '%$Today%' ORDER BY urm.start_time ASC";

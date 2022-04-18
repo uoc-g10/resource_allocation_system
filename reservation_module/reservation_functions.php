@@ -59,7 +59,7 @@ if (isset($_POST['loadSchedule'])) {
             }
 
             $act = 0;
-            if ($ress['user_id'] == $User['id'] or $User['role'] == 'ROLE_ADMIN') {
+            if ($ress['user_id'] == $User['id'] or $User['role'] == 'ROLE_ADMIN' or $User['role'] == 'ROLE_MANAGE_USER') {
                 $act = 1;
             }
 

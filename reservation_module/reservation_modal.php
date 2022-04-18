@@ -41,7 +41,7 @@ while ($row = mysqli_fetch_array($result)) {
             </div>
         </div>
 
-        <?php if ($User['role'] == 'ROLE_ADMIN') { ?>
+        <?php if ($User['role'] == 'ROLE_ADMIN' or $User['role'] == 'ROLE_MANAGE_USER') { ?>
 
             <div class="form-group">
                 <label for="reservation_description" class="col-sm-3 control-label">Lecturer</label>

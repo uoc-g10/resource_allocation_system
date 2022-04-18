@@ -29,7 +29,7 @@ if (isset($_GET['timeZone'])) {
 // die();
 
 
-if ($User['role'] == 'ROLE_ADMIN') {
+if ($User['role'] == 'ROLE_ADMIN' or $User['role'] == 'ROLE_MANAGE_USER') {
   $eventsQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.start_time >= '%$range_start%' AND urm.start_time >= '%$range_end%' ORDER BY urm.start_time ASC";
 } else {
   $eventsQuery = "SELECT urm.*,res.name as hall FROM user_resource_map as urm INNER JOIN resources as res ON urm.resource_id = res.id WHERE urm.user_id=$LoginUser AND urm.start_time >= '%$range_start%' AND urm.start_time >= '%$range_end%' ORDER BY urm.start_time ASC";
