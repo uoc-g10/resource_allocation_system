@@ -182,6 +182,7 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                     <h4 class="modal-title"><b>Edit Resource Details</b></h4>
                 </div>
                 <form class="form-horizontal" method="POST" id="resourceEditFrm">
+                    <input type="hidden" class="form-control" id="red_id" name="id">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name_edit" class="col-sm-3 control-label">Resource Name</label>
@@ -197,7 +198,7 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                                 <input type="text" class="form-control" id="location_edit" name="location" Placeholder="Location">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label for="type" class="col-sm-3 control-label">Type</label>
 
                             <div class="col-sm-9">
@@ -318,7 +319,8 @@ while ($faculty = mysqli_fetch_array($result_2)) {
                 updateFaculties($("#faculty_edit").val());
                 $('#department_edit').val(This.find('[data-column="department"]').attr('data-did'));
                 $('#catogory_edit').val(This.find('[data-column="category"]').html());
-
+                $('#red_id').val($(this).attr('id'));
+                
                 $('#editResource').modal('show');
             });
 
