@@ -8,9 +8,9 @@ date_default_timezone_set('Asia/Colombo');
 // $dbname = "allocationsystem";
 
 $servername = "localhost";
-$username = "u221855502_root";
-$password = "wpAD?L]0";
-$dbname = "u221855502_allocation";
+$username = "root";
+$password = "";
+$dbname = "allocationsystem";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
